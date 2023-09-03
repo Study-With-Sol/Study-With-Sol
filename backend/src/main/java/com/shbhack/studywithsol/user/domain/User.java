@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -58,6 +59,7 @@ public class User extends BaseEntity {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.createdDate = LocalDateTime.now().plusHours(9);
     }
 
 }
