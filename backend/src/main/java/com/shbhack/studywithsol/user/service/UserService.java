@@ -12,5 +12,5 @@ import javax.transaction.Transactional;
 public class UserService {
     private final UserRepository userRepository;
 
-    
+
 }
