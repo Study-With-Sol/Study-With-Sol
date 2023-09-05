@@ -15,5 +15,5 @@ public class Balance {
 
     private String accountNumber;
     private Long balance;
-    
+
 }
