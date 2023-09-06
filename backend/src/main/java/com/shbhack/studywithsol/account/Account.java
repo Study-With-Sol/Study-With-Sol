@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.shbhack.studywithsol.account.enums.AccountType;
 import com.shbhack.studywithsol.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,7 +48,7 @@ public class Account {
     private User user;
 
     @Column(nullable = false)
-    private String type;
+    private AccountType type;
 
     @Column(nullable = false)
     private String accountNumber;
