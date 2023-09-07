@@ -73,7 +73,7 @@ public class Account {
     @Column(nullable = true)
     private LocalDate expirationDate;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Double interestRate;
 
     @Column(nullable = false)
@@ -81,5 +81,17 @@ public class Account {
 
     @Column(nullable = false)
     private Boolean isActive;
+
+    public Account(String owner, String accountNumber, String accountName, String productName,
+                   Long balance, Double interestRate, Boolean isMainAccount, Boolean isActive){
+        this.owner = owner;
+        this.accountNumber = accountNumber;
+        this.accountName = accountName;
+        this.productName = productName;
+        this.balance = balance;
+        this.interestRate = interestRate;
+        this.isMainAccount = isMainAccount;
+        this.isActive = isActive;
+    }
 
 }
