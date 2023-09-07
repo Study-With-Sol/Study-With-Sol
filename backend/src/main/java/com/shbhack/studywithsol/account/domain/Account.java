@@ -82,13 +82,17 @@ public class Account {
     @Column(nullable = false)
     private Boolean isActive;
 
-    public Account(String owner, String accountNumber, String accountName, String productName,
-                   Long balance, Double interestRate, Boolean isMainAccount, Boolean isActive){
+    public Account(String owner, AccountType type, String accountNumber, String accountName,
+                   String productName, Long balance, LocalDate createdDate, LocalDate expirationDate,
+                   Double interestRate, Boolean isMainAccount, Boolean isActive){
         this.owner = owner;
+        this.type = type;
         this.accountNumber = accountNumber;
         this.accountName = accountName;
         this.productName = productName;
         this.balance = balance;
+        this.createdDate = createdDate;
+        this.expirationDate = expirationDate;
         this.interestRate = interestRate;
         this.isMainAccount = isMainAccount;
         this.isActive = isActive;

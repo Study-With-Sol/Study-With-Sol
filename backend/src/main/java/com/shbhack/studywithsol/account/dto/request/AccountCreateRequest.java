@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.account.dto.request;
 
 import com.shbhack.studywithsol.account.domain.Account;
+import com.shbhack.studywithsol.account.domain.enums.AccountType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,7 +26,7 @@ public record AccountCreateRequest(
         String owner,
 
         @NotBlank
-        String type,
+        AccountType type,
 
         @NotBlank
         String accountNumber,
@@ -58,10 +59,13 @@ public record AccountCreateRequest(
         public Account toEntity(){
                 return new Account(
                         this.owner,
+                        this.type,
                         this.accountNumber,
                         this.accountName,
                         this.productName,
                         this.balance,
+                        this.createdDate,
+                        this.expirationDate,
                         this.interestRate,
                         this.isMainAccount,
                         this.isActive
