@@ -20,13 +20,14 @@ public record AccountCreateRequest(
          *  expirationDate : "만기일",
          *  interestRate : "금리(수익률)",
          *  isMainAccount : "주계좌여부"
+         *  isActive : 계좌 활성화 여부
          */
 
         @NotBlank
         String owner,
 
         @NotBlank
-        AccountType type,
+        String type,
 
         @NotBlank
         String accountNumber,
@@ -41,9 +42,9 @@ public record AccountCreateRequest(
         Long balance,
 
         @NotBlank
-        LocalDate createdDate,
+        String createdDate,
 
-        LocalDate expirationDate,
+        String expirationDate,
 
         @NotNull
         Double interestRate,
@@ -59,13 +60,13 @@ public record AccountCreateRequest(
         public Account toEntity(){
                 return new Account(
                         this.owner,
-                        this.type,
+                        AccountType.valueOf(this.type),
                         this.accountNumber,
                         this.accountName,
                         this.productName,
                         this.balance,
-                        this.createdDate,
-                        this.expirationDate,
+                        LocalDate.parse(this.createdDate),
+                        LocalDate.parse(this.expirationDate),
                         this.interestRate,
                         this.isMainAccount,
                         this.isActive
