@@ -27,7 +27,8 @@ public class Account {
      * 예적금/외화/펀드/신탁
      *
      *  id : "PK"
-     *  user : "고객명"
+     *  user : "앱 유저"
+     *  owner : "계좌 주인명"
      *  type : "예적금",
      *  accountNumber : "계좌번호",
      *  accountName : "계좌이름",
@@ -46,6 +47,9 @@ public class Account {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(nullable = false)
+    private String owner;
 
     @Column(nullable = false)
     private AccountType type;
