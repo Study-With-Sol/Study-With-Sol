@@ -15,7 +15,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -27,7 +27,8 @@ public class Account {
      * 예적금/외화/펀드/신탁
      *
      *  id : "PK"
-     *  user : "고객명"
+     *  user : "앱 유저"
+     *  owner : "계좌 주인명"
      *  type : "예적금",
      *  accountNumber : "계좌번호",
      *  accountName : "계좌이름",
@@ -36,7 +37,8 @@ public class Account {
      *  createdDate : "신규일",
      *  expirationDate : "만기일",
      *  interestRate : "금리(수익률)",
-     *  isMainAccount : "주계좌여부"
+     *  isMainAccount : "주계좌여부",
+     *  isActive : "계좌 상태"
      */
 
     @Id
@@ -46,6 +48,9 @@ public class Account {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(nullable = false)
+    private String owner;
 
     @Column(nullable = false)
     private AccountType type;
@@ -63,15 +68,34 @@ public class Account {
     private Long balance;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @Column(nullable = true)
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Double interestRate;
 
     @Column(nullable = false)
     private Boolean isMainAccount;
+
+    @Column(nullable = false)
+    private Boolean isActive;
+
+    public Account(String owner, AccountType type, String accountNumber, String accountName,
+                   String productName, Long balance, LocalDate createdDate, LocalDate expirationDate,
+                   Double interestRate, Boolean isMainAccount, Boolean isActive){
+        this.owner = owner;
+        this.type = type;
+        this.accountNumber = accountNumber;
+        this.accountName = accountName;
+        this.productName = productName;
+        this.balance = balance;
+        this.createdDate = createdDate;
+        this.expirationDate = expirationDate;
+        this.interestRate = interestRate;
+        this.isMainAccount = isMainAccount;
+        this.isActive = isActive;
+    }
 
 }
