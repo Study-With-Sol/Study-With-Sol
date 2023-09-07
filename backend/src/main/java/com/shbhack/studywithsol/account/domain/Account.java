@@ -15,7 +15,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -37,7 +37,8 @@ public class Account {
      *  createdDate : "신규일",
      *  expirationDate : "만기일",
      *  interestRate : "금리(수익률)",
-     *  isMainAccount : "주계좌여부"
+     *  isMainAccount : "주계좌여부",
+     *  isActive : "계좌 상태"
      */
 
     @Id
@@ -67,15 +68,18 @@ public class Account {
     private Long balance;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @Column(nullable = true)
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
 
     @Column(nullable = true)
     private Double interestRate;
 
     @Column(nullable = false)
     private Boolean isMainAccount;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
 }
