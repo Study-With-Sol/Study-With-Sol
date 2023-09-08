@@ -13,52 +13,48 @@ import java.time.LocalDateTime;
 @Table(name = "user")
 public class User extends BaseEntity {
     /*
-    id : pk
-    child_id : 자녀 pk
-    parent_id : 부모 pk
-    is_parent : 부모여부
-    nickname : 아이디
+    user_id : pk
+    id : 아이디
     password : 비밀번호
+    is_parent : 부모여부
     name : 이름
-    email : 이메일
     phone_number : 전화번호
+    in_account : 1원 입금 인증 계좌
+    transfer_memo : 1원 입금 통장 메모
      */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "child_id")
-    private User child;
+    @Column(name = "in_account", nullable = false)
+    private String inAccount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private User parent;
+    @Column(name = "transfer_memo")
+    private String transferMemo;
+
+//    @Column(nullable = false)
+    private String id;
+
+//    @Column(nullable = false)
+    private String password;
+
+//    @Column(nullable = false)
+    private String name;
+
+
+    private String phoneNumber;
 
     @Column(name = "is_parent", nullable = false)
     private Boolean isParent;
 
-    @Column(nullable = false, unique = true)
-    private String nickname;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false,  unique = true)
-    private String email;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    public User(String nickname,String name, String email, String phoneNumber){
-        this.nickname = nickname;
+    public User(String id, String password, String name, String phoneNumber, Boolean isParent){
+        this.id = id;
+        this.password = password;
         this.name = name;
-        this.email = email;
         this.phoneNumber = phoneNumber;
+        this.isParent = isParent;
         this.createdDate = LocalDateTime.now().plusHours(9);
     }
 
