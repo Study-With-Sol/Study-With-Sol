@@ -1,7 +1,6 @@
 package com.shbhack.studywithsol.user.controller;
 
 import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequestDto;
-import com.shbhack.studywithsol.user.dto.request.UserOneTransferRequestDto;
 import com.shbhack.studywithsol.user.dto.request.UserSignUpRequestDto;
 import com.shbhack.studywithsol.user.service.UserService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
@@ -18,20 +17,17 @@ public class UserController {
     private final UserService userService;
 
     /*
-     1원 이체
-     */
-    @PostMapping("/1transfer")
-    public BaseResponseDto oneTransfer(@RequestBody UserOneTransferRequestDto userOneTransferRequestDto){
-        return BaseResponseDto.ok(userService.oneTransfer(userOneTransferRequestDto));
-    }
+    계좌번호랑 이름을 받고 요청을 하면
+    그 계좌번호가 입력한 사람건지 예금주 확인을 해서 1원을 보내준다고 가정하고
+    잘보냈다는 응답을 보내고
 
-    /*
-    1원 이체로 본인 인증
+    프론트에서 사용자가 확인해서 제대로 답을 하면 아이디랑 비밀번호 이름을 받는다.
+
+     1원 이체 -
      */
     @PostMapping("/authentication")
     public BaseResponseDto authentication(@RequestBody UserAuthenticationRequestDto userAuthenticationRequestDto){
-//        return BaseResponseDto.ok(userService.authentication(userAuthenticationRequestDto));
-        return null;
+        return BaseResponseDto.ok(userService.authentication(userAuthenticationRequestDto));
     }
     @PostMapping("/sign-up")
     public BaseResponseDto signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto){

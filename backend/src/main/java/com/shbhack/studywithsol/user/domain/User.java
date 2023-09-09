@@ -19,8 +19,6 @@ public class User extends BaseEntity {
     is_parent : 부모여부
     name : 이름
     phone_number : 전화번호
-    in_account : 1원 입금 인증 계좌
-    transfer_memo : 1원 입금 통장 메모
      */
 
     @Id
@@ -28,19 +26,14 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "in_account", nullable = false)
-    private String inAccount;
 
-    @Column(name = "transfer_memo")
-    private String transferMemo;
-
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String id;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String name;
 
 
