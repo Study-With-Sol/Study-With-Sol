@@ -8,6 +8,7 @@ import com.shbhack.studywithsol.user.repository.UserRepository;
 import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
 import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,7 @@ import javax.transaction.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
     public UserAuthenticationResponse authentication(UserAuthenticationRequest userAuthenticationRequestDto) {
         //예금주 조회
 
@@ -41,7 +43,15 @@ public class UserService {
         );
 
         //저장
-        User user = userRepository.save(userSignUpRequest.toUser());
+        User user = User.builder()
+                .id(userSignUpRequest.id())
+                .password(passwordEncoder.encode(userSignUpRequest.password()))
+                .name(userSignUpRequest.name())
+                .phoneNumber(userSignUpRequest.phoneNumber())
+                .isParent(userSignUpRequest.isParent())
+                .build();
+
+        userRepository.save(user);
 
         return userRepository.findById(userSignUpRequest.id()).get().getUserId() == user.getUserId();
     }
