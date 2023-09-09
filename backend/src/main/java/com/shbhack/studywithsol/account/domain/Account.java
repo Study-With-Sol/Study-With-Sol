@@ -1,5 +1,6 @@
 package com.shbhack.studywithsol.account.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,14 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.shbhack.studywithsol.account.domain.enums.AccountType;
+import com.shbhack.studywithsol.transaction.domain.Transaction;
 import com.shbhack.studywithsol.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -48,6 +53,9 @@ public class Account {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
 
     @Column(nullable = false)
     private String owner;
