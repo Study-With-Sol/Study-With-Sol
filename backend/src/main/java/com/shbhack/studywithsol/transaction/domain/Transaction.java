@@ -57,4 +57,13 @@ public class Transaction {
     @Column(nullable = false)
     private String sender;
 
+    public Transaction(String content, Long amount, Boolean isDeposit,
+                   String recipient, String sender){
+        this.content = content;
+        this.amount = amount;
+        this.useDate = LocalDateTime.now();
+        this.isDeposit = isDeposit;
+        this.recipient = recipient;
+        this.sender = sender;
+    }
 }

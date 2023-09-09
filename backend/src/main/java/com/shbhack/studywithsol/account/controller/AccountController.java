@@ -20,7 +20,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/creation")
-    public BaseResponseDto<AccountCreateResponse> createBoard(@RequestBody @Valid AccountCreateRequest request) {
+    public BaseResponseDto<AccountCreateResponse> save(@RequestBody @Valid AccountCreateRequest request) {
         return BaseResponseDto.ok(accountService.save(request));
     }
 }
