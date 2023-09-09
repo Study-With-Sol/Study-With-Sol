@@ -1,10 +1,12 @@
 package com.shbhack.studywithsol.study.domain;
 
 
+import com.shbhack.studywithsol.user.domain.User;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,8 +20,11 @@ public class Study {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studyId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name=)
+    @Column(nullable = false)
+    private Long parentId;
+
+    @Column(nullable = false)
+    private Long childrenId;
 
     @Column(nullable = false)
     private String content;
@@ -31,8 +36,9 @@ public class Study {
 
     private State payState;
 
+    @Column(nullable = false)
     private Boolean isLongGoal;
 
     @Column(nullable = false)
-    private LocalDateTime deadline;
+    private LocalDate deadline;
 }
