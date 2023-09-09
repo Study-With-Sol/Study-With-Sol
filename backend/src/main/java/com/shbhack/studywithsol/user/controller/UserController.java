@@ -1,7 +1,7 @@
 package com.shbhack.studywithsol.user.controller;
 
-import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequestDto;
-import com.shbhack.studywithsol.user.dto.request.UserSignUpRequestDto;
+import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
+import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
 import com.shbhack.studywithsol.user.service.UserService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
+
     private final UserService userService;
 
     /*
@@ -26,11 +27,22 @@ public class UserController {
      1원 이체 -
      */
     @PostMapping("/authentication")
-    public BaseResponseDto authentication(@RequestBody UserAuthenticationRequestDto userAuthenticationRequestDto){
+    public BaseResponseDto authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequestDto){
         return BaseResponseDto.ok(userService.authentication(userAuthenticationRequestDto));
     }
+
+    //아이디 중복 체크
+    @PostMapping("/duplication_check")
+    public BaseResponseDto<String> duplicationCheck(@RequestBody String id){
+        boolean result= userService.duplicationCheck(id);
+        if(!result){
+            return BaseResponseDto.message(id, "이미 사용 중인 아이디입니다.");
+        }
+        return BaseResponseDto.ok(id);
+    }
+
     @PostMapping("/sign-up")
-    public BaseResponseDto signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto){
+    public BaseResponseDto signUp(@RequestBody UserSignUpRequest userSignUpRequestDto){
         return BaseResponseDto.ok(userService.signUp(userSignUpRequestDto));
     }
 

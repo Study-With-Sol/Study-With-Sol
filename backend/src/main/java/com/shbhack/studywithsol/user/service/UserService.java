@@ -1,12 +1,15 @@
 package com.shbhack.studywithsol.user.service;
 
-import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequestDto;
-import com.shbhack.studywithsol.user.dto.request.UserSignUpRequestDto;
-import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponseDto;
+import com.shbhack.studywithsol.user.domain.User;
+import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
+import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
+import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
+import com.shbhack.studywithsol.user.dto.response.UserSignUpReponse;
 import com.shbhack.studywithsol.user.repository.UserRepository;
+import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
+import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
 
@@ -16,7 +19,7 @@ import javax.transaction.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    public UserAuthenticationResponseDto authentication(UserAuthenticationRequestDto userAuthenticationRequestDto) {
+    public UserAuthenticationResponse authentication(UserAuthenticationRequest userAuthenticationRequestDto) {
         //예금주 조회
 
         //1원 이체
@@ -24,9 +27,20 @@ public class UserService {
         return null;
     }
 
-    public Object signUp(UserSignUpRequestDto userSignUpRequestDto) {
-        //id 중복 확인
-        return null;
+    // ID 중복 검사
+
+    public Boolean duplicationCheck(String id) {
+        if(!userRepository.findById(id).isPresent()){
+            return false;
+        }
+        return true;
+    }
+
+    public UserSignUpReponse signUp(UserSignUpRequest userSignUpRequestDto) {
+        //저장
+        User user = userRepository.save(userSignUpRequestDto.toUser());
+
+        return UserSignUpReponse.of(user);
     }
 
 }
