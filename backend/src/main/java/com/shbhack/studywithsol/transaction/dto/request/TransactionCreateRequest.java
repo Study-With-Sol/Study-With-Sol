@@ -8,16 +8,12 @@ import javax.validation.constraints.NotNull;
 public record TransactionCreateRequest(
 
         /**
-         *  account : 연결계좌
          *  content : 내역
          *  amount : 금액
          *  isDeposit : 입금/출금
          *  recipient : 받는이
          *  sender : 보내는이
          */
-
-        @NotBlank
-        String account,
 
         @NotBlank
         String content,
@@ -38,7 +34,6 @@ public record TransactionCreateRequest(
 
     public Transaction toEntity(){
         return new Transaction(
-                this.account,
                 this.content,
                 this.amount,
                 this.isDepository,

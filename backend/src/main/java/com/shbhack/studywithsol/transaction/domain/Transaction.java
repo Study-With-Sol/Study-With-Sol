@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.transaction.domain;
 
 import com.shbhack.studywithsol.account.domain.Account;
+import com.shbhack.studywithsol.account.domain.enums.AccountType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -57,4 +59,13 @@ public class Transaction {
     @Column(nullable = false)
     private String sender;
 
+    public Transaction(String content, Long amount, Boolean isDeposit,
+                   String recipient, String sender){
+        this.content = content;
+        this.amount = amount;
+        this.useDate = LocalDateTime.now();
+        this.isDeposit = isDeposit;
+        this.recipient = recipient;
+        this.sender = sender;
+    }
 }
