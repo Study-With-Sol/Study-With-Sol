@@ -4,10 +4,8 @@ import com.shbhack.studywithsol.user.domain.User;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 
-import javax.persistence.Column;
-
 @Builder
-public record UserSignUpRequestDto(
+public record UserSignUpRequest(
         @NotNull
         String id,
 

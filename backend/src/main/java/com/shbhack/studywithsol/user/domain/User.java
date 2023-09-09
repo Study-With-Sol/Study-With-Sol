@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.user.domain;
 
 import com.shbhack.studywithsol.utils.domain.BaseEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +43,7 @@ public class User extends BaseEntity {
     @Column(name = "is_parent", nullable = false)
     private Boolean isParent;
 
+    @Builder
     public User(String id, String password, String name, String phoneNumber, Boolean isParent){
         this.id = id;
         this.password = password;

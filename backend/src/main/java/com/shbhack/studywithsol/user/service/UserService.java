@@ -4,10 +4,7 @@ import com.shbhack.studywithsol.user.domain.User;
 import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
 import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
 import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
-import com.shbhack.studywithsol.user.dto.response.UserSignUpReponse;
 import com.shbhack.studywithsol.user.repository.UserRepository;
-import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
-import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,11 +33,11 @@ public class UserService {
         return true;
     }
 
-    public UserSignUpReponse signUp(UserSignUpRequest userSignUpRequestDto) {
+    public Boolean signUp(UserSignUpRequest userSignUpRequest) {
         //저장
-        User user = userRepository.save(userSignUpRequestDto.toUser());
+        User user = userRepository.save(userSignUpRequest.toUser());
 
-        return UserSignUpReponse.of(user);
+        return userRepository.findById(userSignUpRequest.id()).get().getUserId() == user.getUserId();
     }
 
 }
