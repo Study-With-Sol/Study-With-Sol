@@ -2,6 +2,7 @@ package com.shbhack.studywithsol.user.controller;
 
 import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
 import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
+import com.shbhack.studywithsol.user.dto.request.UserDuplicationCheckRequest;
 import com.shbhack.studywithsol.user.service.UserService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -27,23 +28,23 @@ public class UserController {
      1원 이체 -
      */
     @PostMapping("/authentication")
-    public BaseResponseDto authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequestDto){
-        return BaseResponseDto.ok(userService.authentication(userAuthenticationRequestDto));
+    public BaseResponseDto authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequest){
+        return BaseResponseDto.ok(userService.authentication(userAuthenticationRequest));
     }
 
     //아이디 중복 체크
-    @PostMapping("/duplication_check")
-    public BaseResponseDto<String> duplicationCheck(@RequestBody String id){
-        boolean result= userService.duplicationCheck(id);
-        if(!result){
-            return BaseResponseDto.message(id, "이미 사용 중인 아이디입니다.");
+    @PostMapping("/duplication-check")
+    public BaseResponseDto<String> duplicationCheck(@RequestBody UserDuplicationCheckRequest userDuplicationCheckRequest){
+        boolean result= userService.duplicationCheck(userDuplicationCheckRequest.id());
+        if(result){
+            return BaseResponseDto.message(userDuplicationCheckRequest.id(), "duplicated");
         }
-        return BaseResponseDto.ok(id);
+        return BaseResponseDto.ok(userDuplicationCheckRequest.id());
     }
 
     @PostMapping("/sign-up")
-    public BaseResponseDto signUp(@RequestBody UserSignUpRequest userSignUpRequestDto){
-        return BaseResponseDto.ok(userService.signUp(userSignUpRequestDto));
+    public BaseResponseDto signUp(@RequestBody UserSignUpRequest userSignUpRequest){
+        return BaseResponseDto.ok(userService.signUp(userSignUpRequest));
     }
 
 
