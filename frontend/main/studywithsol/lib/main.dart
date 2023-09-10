@@ -11,7 +11,7 @@ class App extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.red.shade200, // 투명도
         body: Center(
-          child: Text('Hello world!'),
+          child: Text('study with sol'),
         ),
       ),
     );
