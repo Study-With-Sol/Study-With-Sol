@@ -13,6 +13,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ${{ secrets.WORKING_DIRECTORY }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -26,22 +30,22 @@ jobs:
 
       - name: create application yaml
         run: |
-          cd ./src/main/resources
+          cd ./backend/src/main/resources
           touch ./application.yml
           echo "${{secrets.APPLICATION}}" > ./application.yml
 
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x ./backend/gradlew
 
 
       - uses: actions/upload-artifact@v3
         with:
           name: application.yml
-          path: ./src/main/resources/application.yml
+          path: ./backend/src/main/resources/application.yml
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./backend/gradlew build
 
 
       - name: Docker build
