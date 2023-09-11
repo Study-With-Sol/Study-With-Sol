@@ -4,4 +4,4 @@ ARG JAR_FILE=/build/libs/studywithsol-0.0.1-SNAPSHOT.jar
 
 COPY ${JAR_FILE} /studywithsol.jar
 
-ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","/studywithsol.jar"]
+ENTRYPOINT ["java","-jar","/studywithsol.jar"]
