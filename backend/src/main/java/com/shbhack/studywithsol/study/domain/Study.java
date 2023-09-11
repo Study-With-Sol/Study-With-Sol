@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.study.domain;
 
 
+import com.shbhack.studywithsol.study.dto.StudyDto;
 import com.shbhack.studywithsol.user.domain.User;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -36,9 +37,18 @@ public class Study {
 
     private State payState;
 
-    @Column(nullable = false)
     private Boolean isLongGoal;
 
     @Column(nullable = false)
     private LocalDate deadline;
+
+    public static Study from(StudyDto.RegisterStudyListReqDto registerStudyListReqDto){
+        return Study.builder()
+                .parentId(registerStudyListReqDto.getParentId())
+                .childrenId(registerStudyListReqDto.getChildrenId())
+                .content(registerStudyListReqDto.getContent())
+                .payMoney(registerStudyListReqDto.getPayMoney())
+                .deadline(registerStudyListReqDto.getDeadline())
+                .build();
+    }
 }
