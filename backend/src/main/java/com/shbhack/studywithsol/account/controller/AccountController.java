@@ -2,13 +2,11 @@ package com.shbhack.studywithsol.account.controller;
 
 import com.shbhack.studywithsol.account.dto.request.AccountCreateRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
 import com.shbhack.studywithsol.account.service.AccountService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,4 +21,11 @@ public class AccountController {
     public BaseResponseDto<AccountCreateResponse> save(@RequestBody @Valid AccountCreateRequest request) {
         return BaseResponseDto.ok(accountService.save(request));
     }
+
+    // 유저 연결 필요.
+    @GetMapping("/{accountId}")
+    public BaseResponseDto<AccountReadResponse> getAccount(@PathVariable Long accountId) {
+        return BaseResponseDto.ok(accountService.getAccount(accountId));
+    }
+
 }
