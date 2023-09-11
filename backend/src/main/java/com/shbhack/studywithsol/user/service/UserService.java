@@ -1,5 +1,6 @@
 package com.shbhack.studywithsol.user.service;
 
+import com.shbhack.studywithsol.jwt.JwtTokenProvider;
 import com.shbhack.studywithsol.user.domain.User;
 import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
 import com.shbhack.studywithsol.user.dto.request.UserLoginRequest;
@@ -22,6 +23,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+
+
     public UserAuthenticationResponse authentication(UserAuthenticationRequest userAuthenticationRequestDto) {
         //예금주 조회
 
@@ -67,8 +71,6 @@ public class UserService {
         }
 
         // 토큰 발행
-
-
-        return null;
+        return UserLoginResponse.of(user, jwtTokenProvider.createToken(user.getUserId(), user.getId()));
     }
 }
