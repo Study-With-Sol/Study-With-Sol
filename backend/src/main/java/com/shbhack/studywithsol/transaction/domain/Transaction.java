@@ -66,4 +66,8 @@ public class Transaction {
         this.recipient = recipient;
         this.sender = sender;
     }
+
+    public void beTradedIn(Account account){
+        this.account = account;
+    }
 }
