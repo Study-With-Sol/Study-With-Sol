@@ -42,8 +42,12 @@ dependencies {
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+tasks.test {
+	testLogging {
+		showExceptions = true
+		exceptionFormat "full"
+		showStackTraces true
+	}
 }
 
 def generated = 'src/main/generated'
