@@ -2,9 +2,6 @@ package com.shbhack.studywithsol.account.dto.response;
 
 import com.shbhack.studywithsol.account.domain.enums.AccountType;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 public record AccountReadResponse(
 
         /**
@@ -15,11 +12,7 @@ public record AccountReadResponse(
          *  accountName : "계좌이름",
          *  productName : "상품명",
          *  balance : "잔액(통화별)",
-         *  createdDate : "신규일",
-         *  expirationDate : "만기일",
-         *  interestRate : "금리(수익률)",
          *  isMainAccount : "주계좌여부",
-         *  isActive : "계좌 상태"
          */
 
         Long id,
@@ -29,11 +22,7 @@ public record AccountReadResponse(
         String accountName,
         String productName,
         Long balance,
-        String createdDate,
-        String expirationDate,
-        Double interestRate,
-        Boolean isMainAccount,
-        Boolean isActive
+        Boolean isMainAccount
 
 ) {
     public static AccountReadResponse from(
@@ -44,11 +33,7 @@ public record AccountReadResponse(
             String accountName,
             String productName,
             Long balance,
-            LocalDate createdDate,
-            LocalDate expirationDate,
-            Double interestRate,
-            Boolean isMainAccount,
-            Boolean isActive
+            Boolean isMainAccount
     ){
         return new AccountReadResponse(
                 id,
@@ -58,11 +43,7 @@ public record AccountReadResponse(
                 accountName,
                 productName,
                 balance,
-                createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                expirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                interestRate,
-                isMainAccount,
-                isActive
+                isMainAccount
         );
     }
 }
