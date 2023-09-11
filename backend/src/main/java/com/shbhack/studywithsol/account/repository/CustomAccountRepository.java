@@ -8,4 +8,5 @@ public interface CustomAccountRepository {
 
     Optional<Account> getByIdFetchJoin(Long accountId);
 
+    Optional<Account> findByAccountNumber(String AccountNumber);
 }
