@@ -40,11 +40,7 @@ public class AccountService {
                 account.getAccountName(),
                 account.getProductName(),
                 account.getBalance(),
-                account.getCreatedDate(),
-                account.getExpirationDate(),
-                account.getInterestRate(),
-                account.getIsMainAccount(),
-                account.getIsActive()
+                account.getIsMainAccount()
         );
     }
 }
