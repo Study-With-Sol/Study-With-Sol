@@ -28,4 +28,14 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
         );
     }
 
+    @Override
+    public Optional<Account> findByAccountNumber(String accountNumber) {
+        return Optional.ofNullable(
+                queryFactory
+                        .selectFrom(account)
+                        .where(account.accountNumber.eq(accountNumber))
+                        .fetchOne()
+        );
+    }
+
 }

@@ -106,4 +106,8 @@ public class Account {
         this.isActive = isActive;
     }
 
+    public void registeredBy(User user){
+        this.user = user;
+    }
+
 }
