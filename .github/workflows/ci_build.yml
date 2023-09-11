@@ -15,7 +15,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ${{ secrets.WORKING_DIRECTORY }}
+        working-directory: ./backend
 
     steps:
       - uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
 
       - name: create application yaml
         run: |
-          cd ./backend/src/main/resources
+          cd ./src/main/resources
           touch ./application.yml
           echo "${{secrets.APPLICATION}}" > ./application.yml
 
@@ -42,10 +42,10 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: application.yml
-          path: ./backend/src/main/resources/application.yml
+          path: ./src/main/resources/application.yml
 
       - name: Build with Gradle
-        run: ./backend/gradlew build
+        run: ./gradlew build
 
 
       - name: Docker build
