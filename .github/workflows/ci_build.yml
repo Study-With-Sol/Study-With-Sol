@@ -13,6 +13,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ${{ secrets.WORKING_DIRECTORY }}
+
     steps:
       - uses: actions/checkout@v3
 
