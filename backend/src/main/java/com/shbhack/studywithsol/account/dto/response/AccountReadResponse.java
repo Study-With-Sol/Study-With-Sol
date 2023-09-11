@@ -1,5 +1,7 @@
 package com.shbhack.studywithsol.account.dto.response;
 
+import com.shbhack.studywithsol.account.domain.enums.AccountType;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -37,7 +39,7 @@ public record AccountReadResponse(
     public static AccountReadResponse from(
             Long id,
             String owner,
-            String type,
+            AccountType type,
             String accountNumber,
             String accountName,
             String productName,
@@ -51,7 +53,7 @@ public record AccountReadResponse(
         return new AccountReadResponse(
                 id,
                 owner,
-                type,
+                type.getMessage(),
                 accountNumber,
                 accountName,
                 productName,
