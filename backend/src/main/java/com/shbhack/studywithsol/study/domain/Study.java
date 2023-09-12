@@ -36,6 +36,7 @@ public class Study {
     @Column(nullable = false)
     private Boolean isDone;
 
+    @Column(nullable = false)
     private State payState;
 
     @Column(nullable = false)
@@ -52,7 +53,16 @@ public class Study {
                 .payMoney(registerStudyListReqDto.getPayMoney())
                 .deadline(registerStudyListReqDto.getDeadline())
                 .isDone(false)
+                .payState(State.STUDY)
                 .isLongGoal(registerStudyListReqDto.getIsLongGoal())
                 .build();
+    }
+
+    public void updateIsDone(Boolean isDone){
+        this.isDone = isDone;
+    }
+
+    public void decisionGiveMoney(State state){
+        this.payState = state;
     }
 }

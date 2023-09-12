@@ -1,17 +1,22 @@
 package com.shbhack.studywithsol.study.controller;
 
+import com.shbhack.studywithsol.study.domain.State;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 import com.shbhack.studywithsol.study.service.StudyService;
+import com.shbhack.studywithsol.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/study")
 public class StudyController {
     private final StudyService studyService;
+    private final TransactionService transactionService;
 
     // 자녀에게 학습 등록
     @PostMapping
@@ -39,5 +44,26 @@ public class StudyController {
     public ResponseEntity<String> deleteOne(@PathVariable Long studyId){
         String content = studyService.deleteOne(studyId);
         return ResponseEntity.status(HttpStatus.OK).body(content+" delete success"); //삭제한 학습의 내용 return
+    }
+
+    // 자녀가 목록 완료 표시
+    @PatchMapping("/{studyId}")
+    public ResponseEntity<StudyDto.StudyStateRespDto> updateIsDone(@PathVariable Long studyId){
+        StudyDto.StudyStateRespDto studyStateRespDto = studyService.updateIsDone(studyId);
+        return ResponseEntity.status(HttpStatus.OK).body(studyStateRespDto);
+    }
+
+    // 부모가 완료된 학습의 용돈 지급 여부 결정
+    @PatchMapping("/money/{studyId}")
+    public ResponseEntity<StudyDto.StudyStateRespDto>  decisionGiveMoney(@PathVariable Long studyId, @RequestBody Map<String, Boolean> state){
+        StudyDto.StudyStateRespDto studyStateRespDto = studyService.decisionGiveMoney(studyId, state.get("state"));
+        if(!state.get("state")){
+            studyStateRespDto = studyService.updateIsDone(studyId);
+        }
+        // 승인 즉 APPROVAL, state = true 가 들어올 떄 바로 지급
+//        else{
+//            transactionService.save();
+//        }
+        return ResponseEntity.status(HttpStatus.OK).body(studyStateRespDto);
     }
 }
