@@ -3,9 +3,11 @@ package com.shbhack.studywithsol.account.service;
 import com.shbhack.studywithsol.account.domain.Account;
 import com.shbhack.studywithsol.account.dto.request.AccountCreateRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
+import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountRegistrationResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountTerminationResponse;
 import com.shbhack.studywithsol.account.repository.AccountRepository;
 
 import com.shbhack.studywithsol.user.domain.User;
@@ -35,6 +37,21 @@ public class AccountService {
         account.registeredBy(user);
 
         return AccountRegistrationResponse.from(account);
+    }
+
+    public AccountTerminationResponse termination(AccountTerminationRequest request, Long userId) {
+
+        Account account = accountRepository.findById(request.id())
+                .orElseThrow(() -> new BusinessException((ErrorMessage.ACCOUNT_NOT_FOUND)));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException((ErrorMessage.USER_NOT_FOUND)));
+
+        if(account.getUser().equals(user)){
+            account.terminatedBy();
+        }
+
+        return AccountTerminationResponse.from(account);
     }
 
     public AccountCreateResponse save(AccountCreateRequest request) {
