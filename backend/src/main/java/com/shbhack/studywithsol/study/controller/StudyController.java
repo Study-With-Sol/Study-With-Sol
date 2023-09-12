@@ -1,56 +1,45 @@
 package com.shbhack.studywithsol.study.controller;
 
-import com.shbhack.studywithsol.study.domain.Study;
 import com.shbhack.studywithsol.study.dto.StudyDto;
-import com.shbhack.studywithsol.study.repository.StudyRepository;
 import com.shbhack.studywithsol.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/study")
+//@RequestMapping(value = "/study")
 public class StudyController {
     private final StudyService studyService;
-    private final StudyRepository studyRepository;
-
-    // 부모가 해당 자녀에게 등록한 학습 조회
-    @PostMapping("/parent")
-    public ResponseEntity<List<StudyDto.StudyResponseDto>> getChildStudyList(@RequestBody StudyDto.StudyRequestDto studyRequestDto){
-        List<StudyDto.StudyResponseDto> studyList = studyService.getChildStudyList(studyRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(studyList);
-    }
-
-    // 자녀가 가진 모든 학습 조회
-    @PostMapping("/child")
-    public ResponseEntity<List<StudyDto.StudyResponseDto>> getStudyList(@RequestBody StudyDto.StudyRequestDto studyRequestDto){
-        List<StudyDto.StudyResponseDto> studyList = studyService.getStudyList(studyRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(studyList);
-    }
 
     // 자녀에게 학습 등록
-    @PostMapping
-    public ResponseEntity<StudyDto.StudyResponseDto> registStudyList(@RequestBody StudyDto.RegisterStudyListReqDto registerStudyListReqDto){
-        Study study = Study.from(registerStudyListReqDto);
-        studyRepository.save(study);
-        return ResponseEntity.status(HttpStatus.OK).body(StudyDto.StudyResponseDto.from(study));
-    }
-
-    // 해당 날짜의 자녀 학습 전부 삭제
-    @DeleteMapping
-    public ResponseEntity<String> deleteList(@RequestBody StudyDto.StudyRequestDto studyRequestDto){
-        String str = studyService.deleteList(studyRequestDto);
+    @PostMapping("/study")
+    public ResponseEntity<String> registerStudyList(@RequestBody StudyDto.RegisterStudyListReqDto registerStudyListReqDto){
+        String str = studyService.registerStudyList(registerStudyListReqDto);
         return ResponseEntity.status(HttpStatus.OK).body(str);
     }
 
-    @DeleteMapping("/{studyId}")
-    public ResponseEntity<String> deleteStudyOne(@PathVariable Long studyId){
-        String content = studyRepository.findById(studyId).get().getContent();
-        studyRepository.deleteById(studyId);
-        return ResponseEntity.status(HttpStatus.OK).body(content);
+    // 학습 리스트 조회
+    @PostMapping("/study/list")
+    public ResponseEntity<StudyDto.StudyResponseDto> getStudyList(@RequestBody StudyDto.StudyRequestDto studyRequestDto){
+        System.out.println("들어왔다ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+        StudyDto.StudyResponseDto studyList = studyService.getStudyList(studyRequestDto);
+        System.out.println("리스트가 문제일까?");
+        return ResponseEntity.status(HttpStatus.OK).body(studyList);
+    }
+
+    // 해당 날짜의 자녀 학습 전부 삭제
+    @DeleteMapping("/study")
+    public ResponseEntity<String> deleteList(@RequestBody StudyDto.StudyRequestDto studyRequestDto){
+        String str = studyService.deleteList(studyRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(str); // "delete success"
+    }
+
+    // 해당 아이디 학습 하나 삭제
+    @DeleteMapping("/study/{studyId}")
+    public ResponseEntity<String> deleteOne(@PathVariable Long studyId){
+        String content = studyService.deleteOne(studyId);
+        return ResponseEntity.status(HttpStatus.OK).body(content+" delete success"); //삭제한 학습의 내용 return
     }
 }

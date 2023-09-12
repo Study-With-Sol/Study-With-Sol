@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class StudyDto {
 
+    // 학습 조회, 삭제에 사용 되는 Request DTO
     @Getter
     @Builder
     @NoArgsConstructor
@@ -27,10 +29,10 @@ public class StudyDto {
         @NotNull
         private Long childrenId;
 
-        @NotNull
         private Long parentId;
     }
 
+    // 학습 등록 시 오는 Request DTO
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
@@ -51,21 +53,24 @@ public class StudyDto {
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDate deadline;
+
+        @NotNull
+        private Boolean isLongGoal;
     }
 
+    //학습 조회 시 반환하기 위한 Response DTO
     @Getter
     @Builder
     public static class StudyResponseDto{
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-        private LocalDate deadline;
-        private String content;
-        private int payMoney;
+        private List<Study> studyList;
+//        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+//        private LocalDate deadline;
+//        private String content;
+//        private int payMoney;
 
-        public static StudyResponseDto from(Study study){
+        public static StudyResponseDto from(List<Study> study){
             return StudyResponseDto.builder()
-                    .deadline(study.getDeadline())
-                    .content(study.getContent())
-                    .payMoney(study.getPayMoney())
+                    .studyList(study)
                     .build();
         }
     }
