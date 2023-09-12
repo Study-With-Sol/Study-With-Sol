@@ -33,10 +33,12 @@ public class Study {
     @Column(nullable = false)
     private int payMoney;
 
+    @Column(nullable = false)
     private Boolean isDone;
 
     private State payState;
 
+    @Column(nullable = false)
     private Boolean isLongGoal;
 
     @Column(nullable = false)
@@ -49,6 +51,8 @@ public class Study {
                 .content(registerStudyListReqDto.getContent())
                 .payMoney(registerStudyListReqDto.getPayMoney())
                 .deadline(registerStudyListReqDto.getDeadline())
+                .isDone(false)
+                .isLongGoal(registerStudyListReqDto.getIsLongGoal())
                 .build();
     }
 }

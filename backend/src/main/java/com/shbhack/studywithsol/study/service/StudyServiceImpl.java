@@ -1,5 +1,6 @@
 package com.shbhack.studywithsol.study.service;
 
+import com.shbhack.studywithsol.study.domain.Study;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 import com.shbhack.studywithsol.study.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,13 @@ public class StudyServiceImpl implements StudyService{
     private final StudyRepository studyRepository;
 
     @Override
+    public String registerStudyList(StudyDto.RegisterStudyListReqDto registerStudyListReqDto) {
+        Study study = Study.from(registerStudyListReqDto);
+        studyRepository.save(study);
+        return "register success";
+    }
+
+    @Override
     public String deleteList(StudyDto.StudyRequestDto studyRequestDto) {
         Long childrenId = studyRequestDto.getChildrenId();
         Long parentId = studyRequestDto.getParentId();
@@ -25,12 +33,20 @@ public class StudyServiceImpl implements StudyService{
     }
 
     @Override
-    public List<StudyDto.StudyResponseDto> getChildStudyList(StudyDto.StudyRequestDto studyRequestDto) {
-        return null;
+    public String deleteOne(Long studyId) {
+        String content = studyRepository.findById(studyId).get().getContent();
+        studyRepository.deleteById(studyId);
+        return content;
     }
 
     @Override
-    public List<StudyDto.StudyResponseDto> getStudyList(StudyDto.StudyRequestDto studyRequestDto) {
-        return null;
+    public StudyDto.StudyResponseDto getStudyList(StudyDto.StudyRequestDto studyRequestDto) {
+        List<Study> studyList;
+        if(studyRequestDto.getParentId()==null){
+            studyList = studyRepository.findAllByChildrenId(studyRequestDto.getChildrenId());
+        } else{
+            studyList = studyRepository.findAllByChildrenIdAndParentId(studyRequestDto.getChildrenId(), studyRequestDto.getParentId());
+        }
+        return StudyDto.StudyResponseDto.from(studyList);
     }
 }
