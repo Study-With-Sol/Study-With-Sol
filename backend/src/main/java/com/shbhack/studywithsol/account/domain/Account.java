@@ -110,4 +110,8 @@ public class Account {
         this.user = user;
     }
 
+    public void terminatedBy(){
+        this.user = null;
+    }
+
 }
