@@ -23,7 +23,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
 
 
     public UserAuthenticationResponse authentication(UserAuthenticationRequest userAuthenticationRequestDto) {
@@ -66,11 +65,12 @@ public class UserService {
         User user = userRepository.findById(userLoginRequest.id())
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
 
-        if(!passwordEncoder.matches(userLoginRequest.password(), user.getPassword())){
+        if (!passwordEncoder.matches(userLoginRequest.password(), user.getPassword())) {
             throw new BusinessException(ErrorMessage.USER_NOT_FOUND); // 비밀번호가 맞지 않을때 예외 처리
         }
 
         // 토큰 발행
-        return UserLoginResponse.of(user, jwtTokenProvider.createToken(user.getUserId(), user.getId()));
+        String token = JwtTokenProvider.createToken(user.getUserId(), user.getId());
+        return UserLoginResponse.of(user, token);
     }
 }

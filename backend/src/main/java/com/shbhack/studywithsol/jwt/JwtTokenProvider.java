@@ -1,12 +1,17 @@
 package com.shbhack.studywithsol.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -21,16 +26,20 @@ public class JwtTokenProvider {
     @Value("${jwt.token.secret}")
     private String salt;
 
-    private Key secretKey;
+    private static Key secretKey;
 
-    private final Long expireTimeMS = 1000L * 60 * 60 *24;
+    private static final Long expireTimeMS = 1000L * 60 * 60 *24;
+
+    public static String getId(String token) {
+        return "";
+    }
 
     @PostConstruct
     protected void init() {
         secretKey = Keys.hmacShaKeyFor(salt.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createToken(Long userId, String id){
+    public static String createToken(Long userId, String id){
         Claims claims = Jwts.claims();
         claims.put("userId", userId);
         claims.put("id" ,id);
@@ -43,6 +52,13 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-
+    public static boolean isExpired(String token){
+//        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+//        return !claims.getBody().getExpiration().before(new Date());
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody()
+                .getExpiration()
+                .before(new Date());
+    }
 
 }
