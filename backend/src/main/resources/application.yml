@@ -10,4 +10,13 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
+    database: mysql
+    generate-ddl: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    org.hibernate.SQL: debug

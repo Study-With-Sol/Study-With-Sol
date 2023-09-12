@@ -1,14 +1,18 @@
 package com.shbhack.studywithsol.study.service;
 
+import com.shbhack.studywithsol.study.domain.State;
 import com.shbhack.studywithsol.study.domain.Study;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 import com.shbhack.studywithsol.study.repository.StudyRepository;
+import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
+import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,11 +46,38 @@ public class StudyServiceImpl implements StudyService{
     @Override
     public StudyDto.StudyResponseDto getStudyList(StudyDto.StudyRequestDto studyRequestDto) {
         List<Study> studyList;
-        if(studyRequestDto.getParentId()==null){
+        if(studyRequestDto.getParentId()==null)
             studyList = studyRepository.findAllByChildrenId(studyRequestDto.getChildrenId());
-        } else{
+        else
             studyList = studyRepository.findAllByChildrenIdAndParentId(studyRequestDto.getChildrenId(), studyRequestDto.getParentId());
-        }
+
         return StudyDto.StudyResponseDto.from(studyList);
+    }
+
+    @Override
+    public StudyDto.StudyStateRespDto updateIsDone(Long studyId) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        if(study.isEmpty()) throw new BusinessException(ErrorMessage.STUDY_NOT_FOUNT);
+
+        study.get().updateIsDone(!study.get().getIsDone());
+
+        if(study.get().getIsDone()) study.get().decisionGiveMoney(State.WAIT_APPROVAL);
+
+        return StudyDto.StudyStateRespDto.from(study.get());
+    }
+
+    @Override
+    public StudyDto.StudyStateRespDto decisionGiveMoney(Long studyId, Boolean state) {
+        Optional<Study> study = studyRepository.findById(studyId);
+        if(study.isEmpty()) throw new BusinessException(ErrorMessage.STUDY_NOT_FOUNT);
+        if(!study.get().getIsDone())
+            throw new BusinessException(ErrorMessage.STUDY_IS_NOT_DONE);
+        if(study.get().getPayState()==State.APPROVAL)
+            throw new BusinessException(ErrorMessage.STUDY_ALREADY_APPROVAL);
+
+        if(!state) study.get().decisionGiveMoney(State.REFUSAL);
+        else study.get().decisionGiveMoney(State.APPROVAL);
+
+        return StudyDto.StudyStateRespDto.from(study.get());
     }
 }

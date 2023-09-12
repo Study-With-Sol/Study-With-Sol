@@ -12,4 +12,8 @@ public interface StudyService {
     String deleteOne(Long studyId);
 
     StudyDto.StudyResponseDto getStudyList(StudyDto.StudyRequestDto studyRequestDto);
+
+    StudyDto.StudyStateRespDto updateIsDone(Long studyId);
+
+    StudyDto.StudyStateRespDto decisionGiveMoney(Long studyId, Boolean state);
 }
