@@ -17,6 +17,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+jwt:
+  token:
+    secret: ${JWT_TOKEN_SECRET}
 logging:
   level:
     org.hibernate.SQL: debug
