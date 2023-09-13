@@ -39,6 +39,7 @@ public class User extends BaseEntity {
     private String name;
 
 
+    @Column(nullable = false)
     private String email;
 
     @Column(name = "is_parent", nullable = false)

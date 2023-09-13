@@ -15,6 +15,7 @@ public record UserSignUpRequest(
         @NotNull
         String name,
 
+        @NotNull
         String email,
 
         @NotNull
