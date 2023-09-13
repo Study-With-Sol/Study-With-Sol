@@ -106,4 +106,12 @@ public class Account {
         this.isActive = isActive;
     }
 
+    public void registeredBy(User user){
+        this.user = user;
+    }
+
+    public void terminatedBy(){
+        this.user = null;
+    }
+
 }
