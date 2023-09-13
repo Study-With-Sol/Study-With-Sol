@@ -48,13 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         //토큰에서 아이디 꺼내기
-        String id = JwtTokenProvider.getId(token);
+        Long userId = JwtTokenProvider.getUserId(token);
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(id, null, List.of(new SimpleGrantedAuthority("USER")));
+                new UsernamePasswordAuthenticationToken(userId, null, List.of(new SimpleGrantedAuthority("USER")));
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-//        Authentication authenticationToken =
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

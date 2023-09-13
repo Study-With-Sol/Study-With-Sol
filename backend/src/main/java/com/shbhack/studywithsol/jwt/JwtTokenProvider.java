@@ -1,17 +1,12 @@
 package com.shbhack.studywithsol.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -30,8 +25,10 @@ public class JwtTokenProvider {
 
     private static final Long expireTimeMS = 1000L * 60 * 60 *24;
 
-    public static String getId(String token) {
-        return "";
+
+    public static Long getUserId(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody().get("userId", Long.class);
     }
 
     @PostConstruct
@@ -39,10 +36,9 @@ public class JwtTokenProvider {
         secretKey = Keys.hmacShaKeyFor(salt.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static String createToken(Long userId, String id){
+    public static String createToken(Long userId){
         Claims claims = Jwts.claims();
         claims.put("userId", userId);
-        claims.put("id" ,id);
 
         return Jwts.builder()
                 .setClaims(claims)
