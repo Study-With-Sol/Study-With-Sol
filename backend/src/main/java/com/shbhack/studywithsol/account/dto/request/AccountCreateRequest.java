@@ -68,7 +68,6 @@ public record AccountCreateRequest(
                         LocalDate.parse(this.createdDate),
                         LocalDate.parse(this.expirationDate),
                         this.interestRate,
-                        this.isMainAccount,
                         this.isActive
                 );
         }
