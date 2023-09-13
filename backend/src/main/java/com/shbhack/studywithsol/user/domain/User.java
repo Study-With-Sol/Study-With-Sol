@@ -56,6 +56,10 @@ public class User extends BaseEntity {
         this.email = email;
         this.isParent = isParent;
         this.createdDate = LocalDateTime.now().plusHours(9);
+        this.mainAccount = null;
     }
 
+    public void setMainAccount(Account mainAccount){
+        this.mainAccount = mainAccount;
+    }
 }

@@ -92,7 +92,7 @@ public class Account {
 
     public Account(String owner, AccountType type, String accountNumber, String accountName,
                    String productName, Long balance, LocalDate createdDate, LocalDate expirationDate,
-                   Double interestRate, Boolean isMainAccount, Boolean isActive){
+                   Double interestRate, Boolean isActive){
         this.owner = owner;
         this.type = type;
         this.accountNumber = accountNumber;
@@ -102,7 +102,7 @@ public class Account {
         this.createdDate = createdDate;
         this.expirationDate = expirationDate;
         this.interestRate = interestRate;
-        this.isMainAccount = isMainAccount;
+        this.isMainAccount = false;
         this.isActive = isActive;
     }
 
@@ -112,6 +112,10 @@ public class Account {
 
     public void terminatedBy(){
         this.user = null;
+    }
+
+    public void setIsMainAccount(Boolean isMainAccount){
+        this.isMainAccount = isMainAccount;
     }
 
 }
