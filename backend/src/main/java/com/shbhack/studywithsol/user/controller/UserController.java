@@ -7,6 +7,7 @@ import com.shbhack.studywithsol.user.dto.request.UserDuplicationCheckRequest;
 import com.shbhack.studywithsol.user.service.UserService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,5 +54,9 @@ public class UserController {
         return BaseResponseDto.ok(userService.login(userLoginRequest));
     }
 
+    @PostMapping("/sample")
+    public BaseResponseDto sample(Authentication authentication){
+        return BaseResponseDto.ok(new String("userId ( pk ) : "+ authentication.getName()));
+    }
 
 }
