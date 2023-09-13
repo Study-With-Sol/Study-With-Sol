@@ -58,4 +58,7 @@ public class User extends BaseEntity {
         this.createdDate = LocalDateTime.now().plusHours(9);
     }
 
+    public void setMainAccount(Account mainAccount){
+        this.mainAccount = mainAccount;
+    }
 }
