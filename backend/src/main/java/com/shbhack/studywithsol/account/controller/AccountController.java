@@ -1,16 +1,26 @@
 package com.shbhack.studywithsol.account.controller;
 
 import com.shbhack.studywithsol.account.dto.request.AccountCreateRequest;
+import com.shbhack.studywithsol.account.dto.request.AccountMainUpdateRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountMainUpdateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountRegistrationResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountTerminationResponse;
 import com.shbhack.studywithsol.account.service.AccountService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 
 import javax.validation.Valid;
 
@@ -25,6 +35,11 @@ public class AccountController {
     @PostMapping
     public BaseResponseDto<AccountRegistrationResponse> registration(@RequestBody @Valid AccountRegistrationRequest request) {
         return BaseResponseDto.ok(accountService.registration(request, 1L));
+    }
+
+    @PatchMapping
+    public BaseResponseDto<AccountMainUpdateResponse> changeMainAccount(@RequestBody @Valid AccountMainUpdateRequest request) {
+        return BaseResponseDto.ok(accountService.changeMainAccount(request, 1L));
     }
 
     @DeleteMapping("/{accountId}")
