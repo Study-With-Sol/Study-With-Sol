@@ -1,11 +1,11 @@
-package com.shbhack.studywithsol.utils.config;
+package com.shbhack.studywithsol.utils.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-public class EncoderConfig {
+public class EncoderConfiguration {
 
     @Bean
     public BCryptPasswordEncoder encoder(){
