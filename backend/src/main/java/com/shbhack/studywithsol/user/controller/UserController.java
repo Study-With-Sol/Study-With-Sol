@@ -1,17 +1,15 @@
 package com.shbhack.studywithsol.user.controller;
 
-import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
-import com.shbhack.studywithsol.user.dto.request.UserLoginRequest;
-import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
-import com.shbhack.studywithsol.user.dto.request.UserDuplicationCheckRequest;
+import com.shbhack.studywithsol.user.dto.request.*;
+import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
+import com.shbhack.studywithsol.user.dto.response.UserInfoResponse;
+import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.service.UserService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +28,7 @@ public class UserController {
      1원 이체 -
      */
     @PostMapping("/authentication")
-    public BaseResponseDto authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequest){
+    public BaseResponseDto<UserAuthenticationResponse> authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequest){
         return BaseResponseDto.ok(userService.authentication(userAuthenticationRequest));
     }
 
@@ -45,13 +43,30 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public BaseResponseDto signUp(@RequestBody UserSignUpRequest userSignUpRequest){
+    public BaseResponseDto<Boolean> signUp(@RequestBody UserSignUpRequest userSignUpRequest){
         return BaseResponseDto.ok(userService.signUp(userSignUpRequest));
     }
 
     @PostMapping("/login")
-    public  BaseResponseDto login(@RequestBody UserLoginRequest userLoginRequest){
+    public  BaseResponseDto<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest){
         return BaseResponseDto.ok(userService.login(userLoginRequest));
+    }
+
+    @GetMapping("/info")
+    public BaseResponseDto<UserInfoResponse> getUserInfo(Authentication authentication){
+        return BaseResponseDto.ok(userService.getUserInfo(Long.valueOf(authentication.getName())));
+    }
+
+    @PatchMapping("/password")
+    public BaseResponseDto<?> updatePassword(Authentication authentication, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest){
+        userService.updatePassword(Long.valueOf(authentication.getName()), userUpdatePasswordRequest);
+        return BaseResponseDto.ok(null);
+    }
+
+    @PatchMapping("/email")
+    public BaseResponseDto<?> updateEmail(Authentication authentication, @RequestBody UserUpdateEmailRequest userUpdateEmailRequest){
+        userService.updateEmail(Long.valueOf(authentication.getName()), userUpdateEmailRequest);
+        return BaseResponseDto.ok(null);
     }
 
     @PostMapping("/sample")

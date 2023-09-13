@@ -59,4 +59,14 @@ public class User extends BaseEntity {
         this.createdDate = LocalDateTime.now().plusHours(9);
     }
 
+    public void updatePassword(String password){
+        this.password = password;
+        this.updatedDate = LocalDateTime.now().plusHours(9);
+    }
+
+    public void updateEmail(String email){
+        this.email = email;
+        this.updatedDate = LocalDateTime.now().plusHours(9);
+    }
+
 }

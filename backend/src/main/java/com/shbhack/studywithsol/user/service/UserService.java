@@ -2,10 +2,9 @@ package com.shbhack.studywithsol.user.service;
 
 import com.shbhack.studywithsol.jwt.JwtTokenProvider;
 import com.shbhack.studywithsol.user.domain.User;
-import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
-import com.shbhack.studywithsol.user.dto.request.UserLoginRequest;
-import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
+import com.shbhack.studywithsol.user.dto.request.*;
 import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
+import com.shbhack.studywithsol.user.dto.response.UserInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.repository.UserRepository;
 import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
@@ -26,10 +25,7 @@ public class UserService {
 
 
     public UserAuthenticationResponse authentication(UserAuthenticationRequest userAuthenticationRequestDto) {
-        //예금주 조회
-
-        //1원 이체
-
+        //이메일인증
         return null;
     }
 
@@ -72,5 +68,22 @@ public class UserService {
         // 토큰 발행
         String token = JwtTokenProvider.createToken(user.getUserId());
         return UserLoginResponse.of(user, token);
+    }
+
+
+    public UserInfoResponse getUserInfo(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
+        return UserInfoResponse.of(user);
+    }
+
+    public void updatePassword(Long userId, UserUpdatePasswordRequest userUpdatePasswordRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
+
+        user.updatePassword(passwordEncoder.encode(userUpdatePasswordRequest.password()));
+    }
+
+    public void updateEmail(Long aLong, UserUpdateEmailRequest userUpdateEmailRequest) {
     }
 }
