@@ -12,4 +12,6 @@ public interface StudyRepository extends JpaRepository<Study, Long> {
     List<Study> findAllByChildrenId(Long childrenId);
 
     List<Study> findAllByChildrenIdAndParentId(Long childrenId, Long parentId);
+
+    List<Study> findAllByChildrenIdAndParentIdAndDeadline(Long childrenId, Long parentId, LocalDate deadline);
 }
