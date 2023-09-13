@@ -56,6 +56,10 @@ public class UserController {
     public BaseResponseDto<UserInfoResponse> getUserInfo(Authentication authentication){
         return BaseResponseDto.ok(userService.getUserInfo(Long.valueOf(authentication.getName())));
     }
+    @PostMapping("/password")
+    public BaseResponseDto<Boolean> checkPassword(Authentication authentication, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest){
+        return BaseResponseDto.ok(userService.checkPassword(Long.valueOf(authentication.getName()), userUpdatePasswordRequest));
+    }
 
     @PatchMapping("/password")
     public BaseResponseDto<?> updatePassword(Authentication authentication, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest){
