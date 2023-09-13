@@ -118,4 +118,12 @@ public class Account {
         this.isMainAccount = isMainAccount;
     }
 
+    public void updateBalance(Long amount, Boolean isDeposit){
+        if(isDeposit){
+            this.balance += amount;
+        } else{
+            this.balance -= amount;
+        }
+    }
+
 }
