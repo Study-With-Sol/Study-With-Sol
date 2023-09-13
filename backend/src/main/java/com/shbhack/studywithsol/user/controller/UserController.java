@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.user.controller;
 
 import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
+import com.shbhack.studywithsol.user.dto.request.UserLoginRequest;
 import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
 import com.shbhack.studywithsol.user.dto.request.UserDuplicationCheckRequest;
 import com.shbhack.studywithsol.user.service.UserService;
@@ -45,6 +46,11 @@ public class UserController {
     @PostMapping("/sign-up")
     public BaseResponseDto signUp(@RequestBody UserSignUpRequest userSignUpRequest){
         return BaseResponseDto.ok(userService.signUp(userSignUpRequest));
+    }
+
+    @PostMapping("/login")
+    public  BaseResponseDto login(@RequestBody UserLoginRequest userLoginRequest){
+        return BaseResponseDto.ok(userService.login(userLoginRequest));
     }
 
 

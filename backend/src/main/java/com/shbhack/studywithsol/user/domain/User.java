@@ -39,7 +39,7 @@ public class User extends BaseEntity {
     private String name;
 
 
-    private String phoneNumber;
+    private String email;
 
     @Column(name = "is_parent", nullable = false)
     private Boolean isParent;
@@ -49,11 +49,11 @@ public class User extends BaseEntity {
     private Account mainAccount;
 
     @Builder
-    public User(String id, String password, String name, String phoneNumber, Boolean isParent){
+    public User(String id, String password, String name, String email, Boolean isParent){
         this.id = id;
         this.password = password;
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        this.email = email;
         this.isParent = isParent;
         this.createdDate = LocalDateTime.now().plusHours(9);
     }
