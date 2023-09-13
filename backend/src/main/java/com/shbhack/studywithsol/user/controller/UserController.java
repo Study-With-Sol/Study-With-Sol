@@ -56,7 +56,7 @@ public class UserController {
 
     @PostMapping("/sample")
     public BaseResponseDto sample(Authentication authentication){
-        return BaseResponseDto.ok(new String(authentication.getName()+" 님 입니다. "));
+        return BaseResponseDto.ok(new String("userId ( pk ) : "+ authentication.getName()));
     }
 
 }
