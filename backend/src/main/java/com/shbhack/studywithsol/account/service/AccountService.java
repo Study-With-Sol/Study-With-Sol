@@ -36,6 +36,11 @@ public class AccountService {
 
         account.registeredBy(user);
 
+        if(user.getMainAccount() == null){
+            user.setMainAccount(account);
+            account.setIsMainAccount(true);
+        }
+
         return AccountRegistrationResponse.from(account);
     }
 
