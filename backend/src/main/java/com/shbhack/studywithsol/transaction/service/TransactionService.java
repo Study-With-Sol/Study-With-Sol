@@ -1,7 +1,6 @@
 package com.shbhack.studywithsol.transaction.service;
 
 import com.shbhack.studywithsol.account.domain.Account;
-import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
 import com.shbhack.studywithsol.account.repository.AccountRepository;
 import com.shbhack.studywithsol.transaction.domain.Transaction;
 import com.shbhack.studywithsol.transaction.dto.request.TransactionCreateRequest;
@@ -39,6 +38,8 @@ public class TransactionService {
 
         transaction.beTradedIn(account);
 
+        account.updateBalance(request.amount(), request.isDeposit());
+
         return TransactionCreateResponse.from(transaction);
     }
 
@@ -64,12 +65,16 @@ public class TransactionService {
 
         parentTransaction.beTradedIn(parentAccount);
 
+        parentAccount.updateBalance(amount, parentTransaction.getIsDeposit());
+
         transactionRepository.save(parentTransaction);
 
         Transaction childTransaction = new Transaction(content, amount, true,
                 connection.getChildren().getName(), connection.getParent().getName());
 
         childTransaction.beTradedIn(childAccount);
+
+        childAccount.updateBalance(amount, childTransaction.getIsDeposit());
 
         transactionRepository.save(childTransaction);
     }
