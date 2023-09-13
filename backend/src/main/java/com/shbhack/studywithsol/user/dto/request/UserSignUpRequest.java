@@ -15,13 +15,13 @@ public record UserSignUpRequest(
         @NotNull
         String name,
 
-        String phoneNumber,
+        String email,
 
         @NotNull
         Boolean isParent
 
 ) {
     public User toUser(){
-        return new User(id, password, name, phoneNumber, isParent);
+        return new User(id, password, name, email, isParent);
     }
 }

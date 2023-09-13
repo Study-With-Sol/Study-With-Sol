@@ -52,7 +52,7 @@ public class UserService {
                 .id(userSignUpRequest.id())
                 .password(passwordEncoder.encode(userSignUpRequest.password()))
                 .name(userSignUpRequest.name())
-                .phoneNumber(userSignUpRequest.phoneNumber())
+                .email(userSignUpRequest.email())
                 .isParent(userSignUpRequest.isParent())
                 .build();
 
@@ -70,7 +70,7 @@ public class UserService {
         }
 
         // 토큰 발행
-        String token = JwtTokenProvider.createToken(user.getUserId(), user.getId());
+        String token = JwtTokenProvider.createToken(user.getUserId());
         return UserLoginResponse.of(user, token);
     }
 }

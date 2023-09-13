@@ -5,7 +5,7 @@ import com.shbhack.studywithsol.user.domain.User;
 public record UserLoginResponse(
         String id,
         String name,
-        String phoneNumber,
+        String email,
         Boolean isParent,
         String token
 ) {
@@ -13,7 +13,7 @@ public record UserLoginResponse(
         return new UserLoginResponse(
                 user.getId(),
                 user.getName(),
-                user.getPhoneNumber(),
+                user.getEmail(),
                 user.getIsParent(),
                 token
         );
