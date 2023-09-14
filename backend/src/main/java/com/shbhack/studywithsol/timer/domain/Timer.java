@@ -33,7 +33,7 @@ public class Timer {
     private String time;
 
     @Column(nullable = false)
-    private State payState;
+    private TimerState payState;
 
     private int money;
 
@@ -48,7 +48,7 @@ public class Timer {
                 .childrenId(studyWithTimerReqDto.getChildrenId())
                 .content(studyWithTimerReqDto.getContent())
                 .time(studyWithTimerReqDto.getTime())
-                .payState(State.WAIT)
+                .payState(TimerState.WAIT)
                 .imageUrl(studyWithTimerReqDto.getImageUrl())
                 .studyDate(LocalDate.now())
                 .build();
@@ -56,6 +56,6 @@ public class Timer {
 
     public void paidMoney(int money){
         this.money = money;
-        this.payState = State.PAID;
+        this.payState = TimerState.PAID;
     }
 }

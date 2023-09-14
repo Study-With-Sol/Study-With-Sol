@@ -1,5 +1,5 @@
 package com.shbhack.studywithsol.study.domain;
 
-public enum State {
+public enum StudyState {
     REFUSAL, APPROVAL, WAIT_APPROVAL, STUDY
 }

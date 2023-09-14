@@ -8,5 +8,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TimerRepository extends JpaRepository<Timer, Long> {
-    List<Timer> findAllByChildrenIdAndAndStudyDate(Long childrenId, LocalDate studyDate);
+    List<Timer> findAllByChildrenIdAndStudyDate(Long childrenId, LocalDate studyDate);
 }

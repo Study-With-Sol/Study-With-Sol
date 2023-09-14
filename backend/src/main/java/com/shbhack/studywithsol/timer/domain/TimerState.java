@@ -1,5 +1,5 @@
 package com.shbhack.studywithsol.timer.domain;
 
-public enum State {
+public enum TimerState {
     PAID, WAIT
 }

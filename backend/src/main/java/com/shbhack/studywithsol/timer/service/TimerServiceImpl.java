@@ -1,6 +1,5 @@
 package com.shbhack.studywithsol.timer.service;
 
-import com.shbhack.studywithsol.timer.domain.State;
 import com.shbhack.studywithsol.timer.domain.Timer;
 import com.shbhack.studywithsol.timer.dto.TimerDto;
 import com.shbhack.studywithsol.timer.repository.TimerRepository;
@@ -9,7 +8,6 @@ import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
