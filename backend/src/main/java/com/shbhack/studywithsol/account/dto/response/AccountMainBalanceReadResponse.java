@@ -7,7 +7,7 @@ public record AccountMainBalanceReadResponse(
          * name: 주계좌 이름
          * balance : 주계좌 잔액
          */
-        
+
         Long id,
         String name,
         Long balance
