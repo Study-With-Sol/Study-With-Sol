@@ -3,9 +3,15 @@ package com.shbhack.studywithsol.account.service;
 import com.shbhack.studywithsol.account.domain.Account;
 import com.shbhack.studywithsol.account.dto.request.AccountCreateRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountMainUpdateRequest;
+import com.shbhack.studywithsol.account.dto.request.AccountReadRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
-import com.shbhack.studywithsol.account.dto.response.*;
+import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountMainUpdateResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountMainBalanceReadResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountRegistrationResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountTerminationResponse;
 import com.shbhack.studywithsol.account.repository.AccountRepository;
 
 import com.shbhack.studywithsol.user.domain.User;
@@ -84,9 +90,9 @@ public class AccountService {
     }
 
     @Transactional(readOnly = true)
-    public AccountReadResponse getAccount(Long accountId){
+    public AccountReadResponse getAccount(AccountReadRequest request){
 
-        Account account = accountRepository.getByIdFetchJoin(accountId)
+        Account account = accountRepository.getByIdFetchJoin(request.id())
                 .orElseThrow(() -> new BusinessException((ErrorMessage.ACCOUNT_NOT_FOUND)));
 
         return AccountReadResponse.from(
@@ -98,6 +104,22 @@ public class AccountService {
                 account.getProductName(),
                 account.getBalance(),
                 account.getIsMainAccount()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public AccountMainBalanceReadResponse getMainAccountBalance(Long userId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException((ErrorMessage.USER_NOT_FOUND)));
+
+        Account account = accountRepository.findById(user.getMainAccount().getId())
+                .orElseThrow(() -> new BusinessException((ErrorMessage.ACCOUNT_NOT_FOUND)));
+
+        return AccountMainBalanceReadResponse.from(
+                account.getId(),
+                account.getAccountName(),
+                account.getBalance()
         );
     }
 }

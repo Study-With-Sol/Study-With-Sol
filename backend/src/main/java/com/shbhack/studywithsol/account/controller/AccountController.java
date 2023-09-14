@@ -2,10 +2,12 @@ package com.shbhack.studywithsol.account.controller;
 
 import com.shbhack.studywithsol.account.dto.request.AccountCreateRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountMainUpdateRequest;
+import com.shbhack.studywithsol.account.dto.request.AccountReadRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainUpdateResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountMainBalanceReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountRegistrationResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountTerminationResponse;
@@ -16,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,15 +47,21 @@ public class AccountController {
     }
 
     @ApiOperation(value ="계좌 등록 해지")
-    @DeleteMapping("/{accountId}")
+    @DeleteMapping
     public BaseResponseDto<AccountTerminationResponse> termination(@RequestBody @Valid AccountTerminationRequest request) {
         return BaseResponseDto.ok(accountService.termination(request, 1L));
     }
 
+    @ApiOperation(value ="주계좌 잔액 조회")
+    @GetMapping("/balance")
+    public BaseResponseDto<AccountMainBalanceReadResponse> getMainAccountBalance() {
+        return BaseResponseDto.ok(accountService.getMainAccountBalance(1L));
+    }
+
     @ApiOperation(value ="계좌 조회")
-    @GetMapping("/{accountId}")
-    public BaseResponseDto<AccountReadResponse> getAccount(@PathVariable Long accountId) {
-        return BaseResponseDto.ok(accountService.getAccount(accountId));
+    @GetMapping
+    public BaseResponseDto<AccountReadResponse> getAccount(@RequestBody @Valid AccountReadRequest request) {
+        return BaseResponseDto.ok(accountService.getAccount(request));
     }
 
     @ApiOperation(value ="계좌 생성")
