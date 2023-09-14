@@ -46,7 +46,7 @@ public class AccountController {
     }
 
     @ApiOperation(value ="계좌 등록 해지")
-    @DeleteMapping("/{accountId}")
+    @DeleteMapping
     public BaseResponseDto<AccountTerminationResponse> termination(@RequestBody @Valid AccountTerminationRequest request) {
         return BaseResponseDto.ok(accountService.termination(request, 1L));
     }
