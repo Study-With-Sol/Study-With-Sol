@@ -30,9 +30,13 @@ public class Connection {
     @JoinColumn(name = "children_id", nullable = false)
     private User children;
 
+    @Column(name = "is_connection")
+    private Boolean isConnection;
+
     @Builder
     public Connection(User parent, User children){
         this.parent = parent;
         this.children = children;
+        this.isConnection = true;
     }
 }
