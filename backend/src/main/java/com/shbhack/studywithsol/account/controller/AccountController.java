@@ -7,6 +7,7 @@ import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainUpdateResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountMainBalanceReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountRegistrationResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountTerminationResponse;
@@ -49,6 +50,12 @@ public class AccountController {
     @DeleteMapping
     public BaseResponseDto<AccountTerminationResponse> termination(@RequestBody @Valid AccountTerminationRequest request) {
         return BaseResponseDto.ok(accountService.termination(request, 1L));
+    }
+
+    @ApiOperation(value ="주계좌 잔액 조회")
+    @DeleteMapping
+    public BaseResponseDto<AccountMainBalanceReadResponse> getMainAccountBalance() {
+        return BaseResponseDto.ok(accountService.getMainAccountBalance(1L));
     }
 
     @ApiOperation(value ="계좌 조회")
