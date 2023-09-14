@@ -3,14 +3,13 @@ package com.shbhack.studywithsol.user.service;
 import com.shbhack.studywithsol.jwt.JwtTokenProvider;
 import com.shbhack.studywithsol.transaction.dto.request.TransactionCreateRequest;
 import com.shbhack.studywithsol.transaction.service.TransactionService;
+import com.shbhack.studywithsol.user.domain.Connection;
 import com.shbhack.studywithsol.user.domain.User;
-import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
-import com.shbhack.studywithsol.user.dto.request.UserIdCheckRequest;
-import com.shbhack.studywithsol.user.dto.request.UserLoginRequest;
-import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
+import com.shbhack.studywithsol.user.dto.request.*;
 import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
+import com.shbhack.studywithsol.user.repository.ConnectionRepository;
 import com.shbhack.studywithsol.user.repository.MessageRepository;
 import com.shbhack.studywithsol.user.repository.UserRepository;
 import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
@@ -27,8 +26,11 @@ import javax.transaction.Transactional;
 public class UserService {
 
     private final TransactionService transactionService;
+
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
+    private final ConnectionRepository connectionRepository;
+
     private final BCryptPasswordEncoder passwordEncoder;
 
 
@@ -125,6 +127,32 @@ public class UserService {
 
 
         return true;
+    }
+
+    public Boolean registerChild(UserRegisterChildRequest userRegisterChildRequest, Long parentId) {
+
+        User parent = userRepository.findById(parentId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
+
+        // 입력받은 메시지와 부모한테 저장된 메시지 확인
+        if(parent.getMessage() == null ) {
+            throw  new BusinessException(ErrorMessage.NO_MESSAGE);
+        }
+        if(!parent.getMessage().equals(userRegisterChildRequest.message())){
+            return  false;
+        }
+
+        // 같다면 null 로 수정
+        parent.setMessage("");
+
+        // 같다면 connection 추가
+        User child = userRepository.findById(userRegisterChildRequest.id())
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
+
+        connectionRepository.save(new Connection(parent, child));
+
+        return true;
+
     }
 
 }

@@ -17,7 +17,7 @@ public enum ErrorMessage {
     USER_ID_DUPLICATED(CONFLICT,"해당 아이디가 이미 존재합니다."),
     ACCOUNT_NOT_FOUND(NOT_FOUND, "해당 계좌를 찾을 수 없습니다."),
     CONNECTION_NOT_FOUND(NOT_FOUND, "해당 부모-자식 관계를 찾을 수 없습니다."),
-
+    NO_MESSAGE(BAD_REQUEST,"메시지가 없습니다."),
     STUDY_NOT_FOUNT(NOT_FOUND, "해당 학습을 찾을 수 없습니다."),
     STUDY_ALREADY_APPROVAL(NOT_ACCEPTABLE, "지급 완료된 학습은 취소할 수 없습니다."),
     STUDY_IS_NOT_DONE(NOT_ACCEPTABLE, "완료 되지 않은 학습에 대해서는 지급할 수 없습니다."),

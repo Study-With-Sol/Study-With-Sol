@@ -65,6 +65,15 @@ public class UserController {
         return BaseResponseDto.ok(userService.oneTransfer(childId, Long.valueOf(authentication.getName())));
     }
 
+    @PostMapping("/register") //자녀에게 1원이체 보낸 메시지 확인
+    public BaseResponseDto registerChild(@RequestBody UserRegisterChildRequest userRegisterChildRequest, Authentication authentication){
+        Boolean result = userService.registerChild(userRegisterChildRequest, Long.valueOf(authentication.getName()));
+        if(!result){
+            return BaseResponseDto.error(new String("메시지가 일치하지 않습니다."));
+        }
+        return BaseResponseDto.ok(result);
+    }
+
 
     /**
      * 샘플코드
