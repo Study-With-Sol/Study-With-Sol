@@ -7,6 +7,7 @@ import com.shbhack.studywithsol.account.dto.request.AccountReadRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountListReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainUpdateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainBalanceReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
@@ -19,6 +20,8 @@ import com.shbhack.studywithsol.user.repository.UserRepository;
 import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
 import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,5 +124,13 @@ public class AccountService {
                 account.getAccountName(),
                 account.getBalance()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Slice<AccountListReadResponse> getAccountList(Long userId, Pageable pageable){
+
+        Slice<AccountListReadResponse> slice = accountRepository.getAccountList(userId, pageable);
+
+        return slice;
     }
 }
