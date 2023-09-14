@@ -53,7 +53,7 @@ public class AccountController {
     }
 
     @ApiOperation(value ="주계좌 잔액 조회")
-    @DeleteMapping
+    @GetMapping("/balance")
     public BaseResponseDto<AccountMainBalanceReadResponse> getMainAccountBalance() {
         return BaseResponseDto.ok(accountService.getMainAccountBalance(1L));
     }
