@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.user.controller;
 
 import com.shbhack.studywithsol.user.dto.request.*;
+import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.service.UserService;
@@ -8,6 +9,8 @@ import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,6 +66,11 @@ public class UserController {
     @GetMapping("/oneTransfer/{childId}") //1원 이체
     public BaseResponseDto<Boolean> oneTransfer(@PathVariable String childId, Authentication authentication){
         return BaseResponseDto.ok(userService.oneTransfer(childId, Long.valueOf(authentication.getName())));
+    }
+
+    @GetMapping("/child")
+    public BaseResponseDto<List<UserChildInfoResponse>> getChildInfo(Authentication authentication){
+        return BaseResponseDto.ok(userService.getChildInfo(Long.valueOf(authentication.getName())));
     }
 
 

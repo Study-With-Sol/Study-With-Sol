@@ -3,14 +3,17 @@ package com.shbhack.studywithsol.user.service;
 import com.shbhack.studywithsol.jwt.JwtTokenProvider;
 import com.shbhack.studywithsol.transaction.dto.request.TransactionCreateRequest;
 import com.shbhack.studywithsol.transaction.service.TransactionService;
+import com.shbhack.studywithsol.user.domain.Connection;
 import com.shbhack.studywithsol.user.domain.User;
 import com.shbhack.studywithsol.user.dto.request.UserAuthenticationRequest;
 import com.shbhack.studywithsol.user.dto.request.UserIdCheckRequest;
 import com.shbhack.studywithsol.user.dto.request.UserLoginRequest;
 import com.shbhack.studywithsol.user.dto.request.UserSignUpRequest;
 import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
+import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
+import com.shbhack.studywithsol.user.repository.ConnectionRepository;
 import com.shbhack.studywithsol.user.repository.MessageRepository;
 import com.shbhack.studywithsol.user.repository.UserRepository;
 import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
@@ -20,6 +23,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -29,6 +34,7 @@ public class UserService {
     private final TransactionService transactionService;
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
+    private final ConnectionRepository connectionRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
@@ -127,4 +133,19 @@ public class UserService {
         return true;
     }
 
+    public List<UserChildInfoResponse> getChildInfo(Long userId) {
+
+        User parent = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
+
+        //부모와 연결된 자녀들 리스트 찾기
+
+        List<Connection> connectionList = connectionRepository.find
+
+        // 그 자녀의 pk와 아이디를 담는 responseDto 리스트 생성
+        List<UserChildInfoResponse> childInfoResponseList = new ArrayList<>();
+
+
+        return childInfoResponseList;
+    }
 }
