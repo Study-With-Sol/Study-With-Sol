@@ -3,14 +3,13 @@ package com.shbhack.studywithsol.study.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.shbhack.studywithsol.study.domain.State;
 import com.shbhack.studywithsol.study.domain.Study;
+import com.shbhack.studywithsol.study.domain.StudyState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
@@ -79,7 +78,7 @@ public class StudyDto {
         private String content;
         private int payMoney;
         private Boolean isDone;
-        private State payState;
+        private StudyState payState;
 
         public static StudyStateRespDto from(Study study) {
             return StudyStateRespDto.builder()

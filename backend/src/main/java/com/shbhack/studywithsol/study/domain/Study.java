@@ -2,13 +2,11 @@ package com.shbhack.studywithsol.study.domain;
 
 
 import com.shbhack.studywithsol.study.dto.StudyDto;
-import com.shbhack.studywithsol.user.domain.User;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -37,7 +35,7 @@ public class Study {
     private Boolean isDone;
 
     @Column(nullable = false)
-    private State payState;
+    private StudyState payState;
 
     @Column(nullable = false)
     private Boolean isLongGoal;
@@ -53,7 +51,7 @@ public class Study {
                 .payMoney(registerStudyListReqDto.getPayMoney())
                 .deadline(registerStudyListReqDto.getDeadline())
                 .isDone(false)
-                .payState(State.STUDY)
+                .payState(StudyState.STUDY)
                 .isLongGoal(registerStudyListReqDto.getIsLongGoal())
                 .build();
     }
@@ -62,7 +60,7 @@ public class Study {
         this.isDone = isDone;
     }
 
-    public void decisionGiveMoney(State state){
+    public void decisionGiveMoney(StudyState state){
         this.payState = state;
     }
 }

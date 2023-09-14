@@ -1,7 +1,7 @@
 package com.shbhack.studywithsol.study.service;
 
-import com.shbhack.studywithsol.study.domain.State;
 import com.shbhack.studywithsol.study.domain.Study;
+import com.shbhack.studywithsol.study.domain.StudyState;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 import com.shbhack.studywithsol.study.repository.StudyRepository;
 import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
@@ -38,7 +38,11 @@ public class StudyServiceImpl implements StudyService{
 
     @Override
     public String deleteOne(Long studyId) {
-        String content = studyRepository.findById(studyId).get().getContent();
+        Optional<Study> study = studyRepository.findById(studyId);
+        if(study.isEmpty()){
+            throw new BusinessException(ErrorMessage.STUDY_NOT_FOUNT);
+        }
+        String content = study.get().getContent();
         studyRepository.deleteById(studyId);
         return content;
     }
@@ -61,7 +65,7 @@ public class StudyServiceImpl implements StudyService{
 
         study.get().updateIsDone(!study.get().getIsDone());
 
-        if(study.get().getIsDone()) study.get().decisionGiveMoney(State.WAIT_APPROVAL);
+        if(study.get().getIsDone()) study.get().decisionGiveMoney(StudyState.WAIT_APPROVAL);
 
         return StudyDto.StudyStateRespDto.from(study.get());
     }
@@ -72,11 +76,11 @@ public class StudyServiceImpl implements StudyService{
         if(study.isEmpty()) throw new BusinessException(ErrorMessage.STUDY_NOT_FOUNT);
         if(!study.get().getIsDone())
             throw new BusinessException(ErrorMessage.STUDY_IS_NOT_DONE);
-        if(study.get().getPayState()==State.APPROVAL)
+        if(study.get().getPayState()==StudyState.APPROVAL)
             throw new BusinessException(ErrorMessage.STUDY_ALREADY_APPROVAL);
 
-        if(!state) study.get().decisionGiveMoney(State.REFUSAL);
-        else study.get().decisionGiveMoney(State.APPROVAL);
+        if(!state) study.get().decisionGiveMoney(StudyState.REFUSAL);
+        else study.get().decisionGiveMoney(StudyState.APPROVAL);
 
         return StudyDto.StudyStateRespDto.from(study.get());
     }
