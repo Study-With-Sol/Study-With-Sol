@@ -1,8 +1,7 @@
 package com.shbhack.studywithsol.pocketmoney.domain;
 
-import com.shbhack.studywithsol.account.domain.enums.AccountType;
+import com.shbhack.studywithsol.pocketmoney.domain.dto.PocketMoneyUpdate;
 import com.shbhack.studywithsol.user.domain.Connection;
-import com.shbhack.studywithsol.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -55,6 +53,11 @@ public class PocketMoney {
 
     public void connectionBy(Connection connection){
         this.connection = connection;
+    }
+
+    public void update(PocketMoneyUpdate pocketMoneyUpdate) {
+        this.amount = pocketMoneyUpdate.amount();
+        this.paymentDate = pocketMoneyUpdate.paymentDate();
     }
 
 }
