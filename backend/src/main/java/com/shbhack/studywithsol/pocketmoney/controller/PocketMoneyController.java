@@ -25,5 +25,5 @@ public class PocketMoneyController {
     public BaseResponseDto<PocketMoneyCreateResponse> save(@RequestBody @Valid PocketMoneyCreateRequest request) {
         return BaseResponseDto.ok(pocketMoneyService.save(request));
     }
-    
+
 }

@@ -23,5 +23,5 @@ public record PocketMoneyReadResponse(
                 pocketMoney.getPaymentDate()
         );
     }
-    
+
 }
