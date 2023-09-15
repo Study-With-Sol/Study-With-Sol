@@ -28,4 +28,15 @@ public class CustomPocketMoneyRepositoryImpl implements CustomPocketMoneyReposit
         );
     }
 
+    @Override
+    public Optional<PocketMoney> getByConnectionId(Long connectionId) {
+        return Optional.ofNullable(
+                queryFactory
+                        .selectFrom(pocketMoney)
+                        .leftJoin(pocketMoney.connection, connection).fetchJoin()
+                        .where(connection.connectionId.eq(connectionId))
+                        .fetchOne()
+        );
+    }
+
 }

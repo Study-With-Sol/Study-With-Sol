@@ -8,4 +8,6 @@ public interface CustomPocketMoneyRepository {
 
     Optional<PocketMoney> getByIdFetchJoin(Long pocketMoneyId);
 
+    Optional<PocketMoney> getByConnectionId(Long connectionId);
+
 }
