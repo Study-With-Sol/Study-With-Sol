@@ -1,16 +1,18 @@
 package com.shbhack.studywithsol.user.domain;
 
+import com.shbhack.studywithsol.utils.domain.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor
 @Table(name = "connection")
-public class Connection {
+public class Connection extends BaseEntity {
     /*
     connection_id : pk
     parent_id : 부모키
@@ -38,5 +40,11 @@ public class Connection {
         this.parent = parent;
         this.children = children;
         this.isConnection = true;
+        this.createdDate = LocalDateTime.now().plusHours(9);
+    }
+
+    public void disconnect(){
+        this.isConnection =false;
+        this.updatedDate = LocalDateTime.now().plusHours(9);
     }
 }

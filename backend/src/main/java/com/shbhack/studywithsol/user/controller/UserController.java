@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.user.controller;
 
 import com.shbhack.studywithsol.user.dto.request.*;
+import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.service.UserService;
@@ -8,6 +9,8 @@ import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -72,6 +75,16 @@ public class UserController {
             return BaseResponseDto.error(new String("메시지가 일치하지 않습니다."));
         }
         return BaseResponseDto.ok(result);
+    }
+
+    @GetMapping("/child")
+    public BaseResponseDto<List<UserChildInfoResponse>> getChildInfo(Authentication authentication){
+        return BaseResponseDto.ok(userService.getChildInfo(Long.valueOf(authentication.getName())));
+    }
+
+    @PatchMapping("/disconnect/{userId}")
+    public BaseResponseDto<Boolean> disconnectChild(@PathVariable Long userId, Authentication authentication){
+        return BaseResponseDto.ok(userService.disconnectChild(userId, Long.valueOf(authentication.getName())));
     }
 
 

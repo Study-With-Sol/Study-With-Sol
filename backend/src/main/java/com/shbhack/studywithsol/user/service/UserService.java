@@ -7,6 +7,7 @@ import com.shbhack.studywithsol.user.domain.Connection;
 import com.shbhack.studywithsol.user.domain.User;
 import com.shbhack.studywithsol.user.dto.request.*;
 import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
+import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.repository.ConnectionRepository;
@@ -19,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -30,7 +33,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final ConnectionRepository connectionRepository;
-
     private final BCryptPasswordEncoder passwordEncoder;
 
 
@@ -155,4 +157,39 @@ public class UserService {
 
     }
 
+    public List<UserChildInfoResponse> getChildInfo(Long userId) {
+
+        User parent = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
+
+        //부모와 연결된 자녀들 리스트 찾기
+        List<Connection> connectionList = connectionRepository.findAllByParent(parent);
+
+        // 그 자녀의 pk와 아이디를 담는 responseDto 리스트 생성
+        List<UserChildInfoResponse> childInfoResponseList = new ArrayList<>();
+        for(Connection connection : connectionList){
+            User child = userRepository.findById(connection.getChildren().getUserId())
+                    .orElseThrow(() -> new BusinessException(ErrorMessage.CHILD_NOT_FOUND)); //해당 자녀 아이디가 없을때 예외 처리
+            childInfoResponseList.add(UserChildInfoResponse.of(child));
+        }
+
+
+        return childInfoResponseList;
+    }
+
+    public Boolean disconnectChild(Long childId, Long parentId) {
+        User parent = userRepository.findById(parentId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
+        User child = userRepository.findById(childId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.CHILD_NOT_FOUND)); //해당 자녀 아이디가 없을때 예외 처리
+
+        Connection connection = connectionRepository.findByParentAndChildren(parent, child);
+        if(connection == null) {
+                throw new BusinessException(ErrorMessage.CONNECTION_NOT_FOUND);
+        }
+
+        connection.disconnect();
+
+        return true;
+    }
 }
