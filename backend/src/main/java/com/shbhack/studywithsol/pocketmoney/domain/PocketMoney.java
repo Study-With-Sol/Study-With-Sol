@@ -1,5 +1,6 @@
 package com.shbhack.studywithsol.pocketmoney.domain;
 
+import com.shbhack.studywithsol.account.domain.enums.AccountType;
 import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -43,5 +45,11 @@ public class PocketMoney {
 
     @Column(nullable = false)
     private Boolean paymentStatus;
+
+    public PocketMoney(Long amount, Integer paymentDate){
+        this.amount = amount;
+        this.paymentDate = paymentDate;
+        this.paymentStatus = false;
+    }
 
 }
