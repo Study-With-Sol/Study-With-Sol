@@ -35,7 +35,7 @@ public class PocketMoneyService {
     }
 
     @Transactional(readOnly = true)
-    public PocketMoneyReadResponse getAccount(PocketMoneyReadRequest request){
+    public PocketMoneyReadResponse getPocketMoney(PocketMoneyReadRequest request){
 
         PocketMoney pocketMoney = pocketMoneyRepository.getByConnectionId(request.connectionId())
                 .orElseThrow(() -> new BusinessException((ErrorMessage.POCKET_MONEY_NOT_FOUND)));
