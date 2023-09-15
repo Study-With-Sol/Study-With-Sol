@@ -3,12 +3,12 @@ package com.shbhack.studywithsol.user.dto.response;
 import com.shbhack.studywithsol.user.domain.User;
 
 public record UserChildInfoResponse(
-        String id,
+        Long id,
         String name
 ) {
     public static UserChildInfoResponse of(User user){
         return new UserChildInfoResponse(
-                user.getId(),
+                user.getUserId(),
                 user.getName()
         );
     }

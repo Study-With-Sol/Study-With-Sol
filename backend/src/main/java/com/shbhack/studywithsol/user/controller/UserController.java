@@ -82,6 +82,11 @@ public class UserController {
         return BaseResponseDto.ok(userService.getChildInfo(Long.valueOf(authentication.getName())));
     }
 
+    @PatchMapping("/disconnect/{userId}")
+    public BaseResponseDto<Boolean> disconnectChild(@PathVariable Long userId, Authentication authentication){
+        return BaseResponseDto.ok(userService.disconnectChild(userId, Long.valueOf(authentication.getName())));
+    }
+
 
     /**
      * 샘플코드
