@@ -6,10 +6,7 @@ import com.shbhack.studywithsol.transaction.service.TransactionService;
 import com.shbhack.studywithsol.user.domain.Connection;
 import com.shbhack.studywithsol.user.domain.User;
 import com.shbhack.studywithsol.user.dto.request.*;
-import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
-import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
-import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
-import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
+import com.shbhack.studywithsol.user.dto.response.*;
 import com.shbhack.studywithsol.user.repository.ConnectionRepository;
 import com.shbhack.studywithsol.user.repository.MessageRepository;
 import com.shbhack.studywithsol.user.repository.UserRepository;
@@ -151,7 +148,7 @@ public class UserService {
         User child = userRepository.findById(userRegisterChildRequest.id())
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
 
-        connectionRepository.save(new Connection(parent, child));
+        connectionRepository.save(new Connection(parent, child, userRegisterChildRequest.alias()));
 
         return true;
 
@@ -163,7 +160,7 @@ public class UserService {
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
 
         //부모와 연결된 자녀들 리스트 찾기
-        List<Connection> connectionList = connectionRepository.findAllByParent(parent);
+        List<Connection> connectionList = connectionRepository.findAllByParentAndIsConnect(parent, true) ;
 
         // 그 자녀의 pk와 아이디를 담는 responseDto 리스트 생성
         List<UserChildInfoResponse> childInfoResponseList = new ArrayList<>();
@@ -176,6 +173,27 @@ public class UserService {
 
         return childInfoResponseList;
     }
+
+    public List<UserParentResponse> getParent(Long childId) {
+        User child = userRepository.findById(childId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
+
+        List<Connection> connectionList = connectionRepository.findAllByChildrenAndIsConnect(child, true);
+
+        List<UserParentResponse> userParentResponseList = new ArrayList<>();
+
+        for(Connection connection : connectionList){
+            User parent = userRepository.findById(connection.getParent().getUserId())
+                    .orElseThrow(() -> new BusinessException(ErrorMessage.PARENT_NOT_FOUND));
+            userParentResponseList.add(UserParentResponse.of(parent, connection));
+        }
+
+        return userParentResponseList;
+
+
+
+    }
+
 
     public Boolean disconnectChild(Long childId, Long parentId) {
         User parent = userRepository.findById(parentId)
@@ -192,4 +210,6 @@ public class UserService {
 
         return true;
     }
+
+
 }

@@ -52,6 +52,7 @@ public class User extends BaseEntity {
     private String message;
 
 
+
     @Builder
     public User(String id, String password, String name, String email, Boolean isParent){
         this.id = id;
