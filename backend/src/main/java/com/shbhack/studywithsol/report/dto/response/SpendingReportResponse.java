@@ -14,9 +14,9 @@ public record SpendingReportResponse(
 
     public static SpendingReportResponse of(SpendingReport spendingReport) {
         return new SpendingReportResponse(
-                spendingReport.content(),
-                spendingReport.percent(),
-                spendingReport.amount()
+                spendingReport.getContent(),
+                spendingReport.getPercent(),
+                spendingReport.getAmount()
         );
     }
 }
