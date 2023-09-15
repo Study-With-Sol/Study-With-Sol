@@ -1,6 +1,11 @@
 package com.shbhack.studywithsol.pocketmoney.dto.request;
 
+import com.shbhack.studywithsol.account.domain.Account;
+import com.shbhack.studywithsol.account.domain.enums.AccountType;
+import com.shbhack.studywithsol.pocketmoney.domain.PocketMoney;
+
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 public record PocketMoneyCreateRequest(
 
@@ -20,4 +25,12 @@ public record PocketMoneyCreateRequest(
         Integer paymentDate
 
 ) {
+
+        public PocketMoney toEntity(){
+                return new PocketMoney(
+                        this.amount,
+                        this.paymentDate
+                );
+        }
+
 }

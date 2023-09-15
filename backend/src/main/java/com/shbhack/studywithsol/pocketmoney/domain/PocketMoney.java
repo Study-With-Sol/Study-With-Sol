@@ -2,6 +2,7 @@ package com.shbhack.studywithsol.pocketmoney.domain;
 
 import com.shbhack.studywithsol.account.domain.enums.AccountType;
 import com.shbhack.studywithsol.user.domain.Connection;
+import com.shbhack.studywithsol.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,6 +51,10 @@ public class PocketMoney {
         this.amount = amount;
         this.paymentDate = paymentDate;
         this.paymentStatus = false;
+    }
+
+    public void connectionBy(Connection connection){
+        this.connection = connection;
     }
 
 }

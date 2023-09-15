@@ -1,5 +1,7 @@
 package com.shbhack.studywithsol.pocketmoney.dto.response;
 
+import com.shbhack.studywithsol.pocketmoney.domain.PocketMoney;
+
 public record PocketMoneyCreateResponse(
 
         /**
@@ -15,4 +17,14 @@ public record PocketMoneyCreateResponse(
         Integer paymentDate
 
 ) {
+
+    public static PocketMoneyCreateResponse from(PocketMoney pocketMoney){
+        return new PocketMoneyCreateResponse(
+                pocketMoney.getId(),
+                pocketMoney.getConnection().getConnectionId(),
+                pocketMoney.getAmount(),
+                pocketMoney.getPaymentDate()
+        );
+    }
+
 }
