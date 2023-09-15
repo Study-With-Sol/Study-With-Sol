@@ -2,7 +2,11 @@ package com.shbhack.studywithsol.pocketmoney.service;
 
 import com.shbhack.studywithsol.pocketmoney.domain.PocketMoney;
 import com.shbhack.studywithsol.pocketmoney.dto.request.PocketMoneyCreateRequest;
+import com.shbhack.studywithsol.pocketmoney.dto.request.PocketMoneyReadRequest;
+import com.shbhack.studywithsol.pocketmoney.dto.request.PocketMoneyUpdateRequest;
 import com.shbhack.studywithsol.pocketmoney.dto.response.PocketMoneyCreateResponse;
+import com.shbhack.studywithsol.pocketmoney.dto.response.PocketMoneyReadResponse;
+import com.shbhack.studywithsol.pocketmoney.dto.response.PocketMoneyUpdateResponse;
 import com.shbhack.studywithsol.pocketmoney.repository.PocketMoneyRepository;
 import com.shbhack.studywithsol.user.domain.Connection;
 import com.shbhack.studywithsol.user.repository.ConnectionRepository;
@@ -30,6 +34,31 @@ public class PocketMoneyService {
         pocketMoney.connectionBy(connection);
 
         return PocketMoneyCreateResponse.from(pocketMoney);
+    }
+
+    @Transactional(readOnly = true)
+    public PocketMoneyReadResponse getPocketMoney(PocketMoneyReadRequest request){
+
+        PocketMoney pocketMoney = pocketMoneyRepository.getByConnectionId(request.connectionId())
+                .orElseThrow(() -> new BusinessException((ErrorMessage.POCKET_MONEY_NOT_FOUND)));
+
+        return PocketMoneyReadResponse.from(pocketMoney);
+    }
+
+    public PocketMoneyUpdateResponse update(PocketMoneyUpdateRequest request) {
+
+        PocketMoney pocketMoney = pocketMoneyRepository.getByConnectionId(request.pocketMoneyId())
+                .orElseThrow(() -> new BusinessException((ErrorMessage.POCKET_MONEY_NOT_FOUND)));
+
+        pocketMoney.update(request.toDto());
+
+        return new PocketMoneyUpdateResponse(
+                pocketMoney.getId(),
+                pocketMoney.getConnection().getConnectionId(),
+                pocketMoney.getAmount(),
+                pocketMoney.getPaymentDate(),
+                pocketMoney.getPaymentStatus()
+        );
     }
 
 }
