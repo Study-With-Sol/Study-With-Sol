@@ -43,5 +43,5 @@ public class PocketMoney {
 
     @Column(nullable = false)
     private Boolean paymentStatus;
-    
+
 }
