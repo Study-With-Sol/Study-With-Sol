@@ -14,6 +14,7 @@ public enum ErrorMessage {
     // 에러 메시지 추가하면 됩니다.
     USER_NOT_FOUND(NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
     CHILD_NOT_FOUND(NOT_FOUND, "해당 자녀 회원을 찾을 수 없습니다."),
+    PARENT_NOT_FOUND(NOT_FOUND, "해당 부모 회원을 찾을 수 없습니다."),
     USER_ID_DUPLICATED(CONFLICT,"해당 아이디가 이미 존재합니다."),
     ACCOUNT_NOT_FOUND(NOT_FOUND, "해당 계좌를 찾을 수 없습니다."),
     CONNECTION_NOT_FOUND(NOT_FOUND, "해당 부모-자식 관계를 찾을 수 없습니다."),

@@ -4,7 +4,9 @@ import com.shbhack.studywithsol.user.dto.request.*;
 import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
+import com.shbhack.studywithsol.user.dto.response.UserParentResponse;
 import com.shbhack.studywithsol.user.service.UserService;
+import com.shbhack.studywithsol.utils.domain.BaseEntity;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -87,6 +89,10 @@ public class UserController {
         return BaseResponseDto.ok(userService.disconnectChild(userId, Long.valueOf(authentication.getName())));
     }
 
+    @GetMapping("/parent")
+    public BaseResponseDto<List<UserParentResponse>> getParent(Authentication authentication){
+        return BaseResponseDto.ok(userService.getParent(Long.valueOf(authentication.getName())));
+    }
 
     /**
      * 샘플코드
