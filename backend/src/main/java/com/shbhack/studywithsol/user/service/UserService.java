@@ -13,12 +13,22 @@ import com.shbhack.studywithsol.user.repository.UserRepository;
 import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
 import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -32,21 +42,37 @@ public class UserService {
     private final ConnectionRepository connectionRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
 
-    public UserAuthenticationResponse authentication(UserAuthenticationRequest userAuthenticationRequestDto) {
-        //예금주 조회
+    public String sendMail(String email) throws MessagingException {
+        StringBuilder key = new StringBuilder();
+        Random random = new Random();
 
-        //1원 이체
+        for(int i=0;i<6;i++){
+            key.append(random.nextInt(10));
+        }
 
-        return null;
+        String code = key.toString(), subject = "Study With SOL 회원 가입 인증 코드", msg="";
+
+        msg += "<h1 style=\"color: #0046FF; font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 주소 확인</h1>";
+        msg += "<p style=\"color: #0046FF; font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래 인증 코드를 Study with SOL 회원 가입 창에 입력하세요.</p>";
+        msg += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
+        msg += code;
+        msg += "</td></tr></tbody></table></div>";
+
+        MimeMessage mail = javaMailSender.createMimeMessage();
+        mail.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+        mail.setSubject(subject,"utf-8");
+        mail.setText(msg,"utf-8","html");
+
+        javaMailSender.send(mail);
+        return code;
     }
 
     // ID 중복 검사
     public Boolean duplicationCheck(String id) {
-        if(!userRepository.findById(id).isPresent()){
-            return false;
-        }
-        return true;
+        return userRepository.findById(id).isPresent();
     }
 
 

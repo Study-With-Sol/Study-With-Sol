@@ -7,15 +7,29 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: false
     database: mysql
     generate-ddl: true
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ant_path_matcher
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: msg081930@gmail.com
+    password: injxvmgfcgfpmyhx
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
 
 jwt:
   token:
@@ -23,3 +37,5 @@ jwt:
 logging:
   level:
     org.hibernate.SQL: debug
+
+

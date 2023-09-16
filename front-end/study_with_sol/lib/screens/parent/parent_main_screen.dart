@@ -14,8 +14,6 @@ class ParentMain extends StatefulWidget {
 }
 
 class _ParentMain extends State<ParentMain> {
-  late Future<List<ParentMain>> homeworkList; // 숙제 리스트 불러오기
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,42 +125,42 @@ class _ParentMain extends State<ParentMain> {
             ),
             child: const Text("완료 숙제"),
           ),
-          FutureBuilder(
-            // 계좌 내역 보여주기
-            future: homeworkList,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  children: [
-                    // slide
-                    for (var homework in snapshot.data!) Container(),
-                  ],
-                );
-              }
-              return Container();
-            },
-          ),
+          // FutureBuilder(
+          //   // 계좌 내역 보여주기
+          //   future: homeworkList,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.hasData) {
+          //       return Column(
+          //         children: [
+          //           // slide
+          //           for (var homework in snapshot.data!) Container(),
+          //         ],
+          //       );
+          //     }
+          //     return Container();
+          //   },
+          // ),
           Container(
             decoration: const BoxDecoration(
               color: Colors.blue,
             ),
             child: const Text("학습량 인증"),
           ),
-          FutureBuilder(
-            // 계좌 내역 보여주기
-            future: homeworkList,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  children: [
-                    // slide
-                    for (var homework in snapshot.data!) Container(),
-                  ],
-                );
-              }
-              return Container();
-            },
-          ),
+          // FutureBuilder(
+          //   // 계좌 내역 보여주기
+          //   future: homeworkList,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.hasData) {
+          //       return Column(
+          //         children: [
+          //           // slide
+          //           for (var homework in snapshot.data!) Container(),
+          //         ],
+          //       );
+          //     }
+          //     return Container();
+          //   },
+          // ),
         ],
       ),
     );

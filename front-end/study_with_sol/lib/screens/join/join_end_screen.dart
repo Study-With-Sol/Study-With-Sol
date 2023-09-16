@@ -41,7 +41,7 @@ class JoinEnd extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const Login(),

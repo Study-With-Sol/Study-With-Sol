@@ -16,13 +16,11 @@ public class StudyReportDto {
     @NoArgsConstructor
     public static class RequestDto{
         @NotNull
-        private Long childrenId;
-        @NotNull
         private LocalDate startDate;
         @NotNull
         private LocalDate endDate;
 
-        private Long parentId;
+        private Long childrenId;
     }
 
     @Getter

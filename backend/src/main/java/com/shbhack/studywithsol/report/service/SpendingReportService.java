@@ -23,7 +23,7 @@ public class SpendingReportService {
     public List<SpendingReportResponse> getSpendingReport(SpendingReportRequest request){
 
         List<SpendingReportResponse> lists = spendingMoneyRepository
-                .getSpendingReport(request.connectionId(), request.year(), request.month());
+                .getSpendingReport(request.childId(), request.year(), request.month());
 
         return lists;
     }

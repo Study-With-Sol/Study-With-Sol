@@ -5,20 +5,18 @@ import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.dto.response.UserParentResponse;
-import com.shbhack.studywithsol.user.dto.request.*;
-import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
+//import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
 import com.shbhack.studywithsol.user.dto.response.UserInfoResponse;
-import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.service.UserService;
-import com.shbhack.studywithsol.utils.domain.BaseEntity;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,9 +36,10 @@ public class UserController {
      */
 
 
-    @PostMapping("/authentication") //본인 인증
-    public BaseResponseDto<?> authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequest){
-        return BaseResponseDto.ok(userService.authentication(userAuthenticationRequest));
+    @PostMapping("/mail-check") //본인 인증
+    public ResponseEntity<String> authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequest) throws MessagingException {
+        String code = userService.sendMail(userAuthenticationRequest.email());
+        return ResponseEntity.status(HttpStatus.OK).body(code);
     }
 
     @PostMapping("/duplication-check") //아이디 중복 체크

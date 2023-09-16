@@ -1,6 +1,6 @@
 package com.shbhack.studywithsol.report.domain;
 
-import com.shbhack.studywithsol.user.domain.Connection;
+import com.shbhack.studywithsol.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ public class SpendingReport {
     /**
      *
      *  id : PK
-     *  connection : 부모-자녀
+     *  child : 자녀
      *  year : 년
      *  month : 월
      *  content : 내용
@@ -34,7 +34,7 @@ public class SpendingReport {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Connection connection;
+    private User child;
 
     @Column(nullable = false)
     private Integer year;

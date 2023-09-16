@@ -1,6 +1,7 @@
 package com.shbhack.studywithsol.study.domain;
 
 
+import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,7 +30,7 @@ public class Study {
     private String content;
 
     @Column(nullable = false)
-    private int payMoney;
+    private Long payMoney;
 
     @Column(nullable = false)
     private Boolean isDone;
@@ -38,21 +39,19 @@ public class Study {
     private StudyState payState;
 
     @Column(nullable = false)
-    private Boolean isLongGoal;
-
-    @Column(nullable = false)
     private LocalDate deadline;
 
-    public static Study from(StudyDto.RegisterStudyListReqDto registerStudyListReqDto){
+    private WantPay wantPay;
+
+    public static Study of(Long parentId, StudyDto.RegisterStudyListReqDto registerStudyListReqDto){
         return Study.builder()
-                .parentId(registerStudyListReqDto.getParentId())
+                .parentId(parentId)
                 .childrenId(registerStudyListReqDto.getChildrenId())
                 .content(registerStudyListReqDto.getContent())
                 .payMoney(registerStudyListReqDto.getPayMoney())
                 .deadline(registerStudyListReqDto.getDeadline())
                 .isDone(false)
                 .payState(StudyState.STUDY)
-                .isLongGoal(registerStudyListReqDto.getIsLongGoal())
                 .build();
     }
 
@@ -60,7 +59,9 @@ public class Study {
         this.isDone = isDone;
     }
 
-    public void decisionGiveMoney(StudyState state){
+    public void decisionGiveMoney(StudyState state, WantPay wantPay){
         this.payState = state;
+        if(wantPay!=null)
+            this.wantPay = wantPay;
     }
 }
