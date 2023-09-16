@@ -72,7 +72,7 @@ public class AccountService {
 
     public AccountTerminationResponse termination(AccountTerminationRequest request, Long userId) {
 
-        Account account = accountRepository.findById(request.id())
+        Account account = accountRepository.findById(request.accountId())
                 .orElseThrow(() -> new BusinessException((ErrorMessage.ACCOUNT_NOT_FOUND)));
 
         User user = userRepository.findById(userId)
@@ -95,7 +95,7 @@ public class AccountService {
     @Transactional(readOnly = true)
     public AccountReadResponse getAccount(AccountReadRequest request){
 
-        Account account = accountRepository.getByIdFetchJoin(request.id())
+        Account account = accountRepository.getByIdFetchJoin(request.accountId())
                 .orElseThrow(() -> new BusinessException((ErrorMessage.ACCOUNT_NOT_FOUND)));
 
         return AccountReadResponse.from(

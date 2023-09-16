@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,29 +37,31 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    //User 설정 후 변경 필요
     @ApiOperation(value ="게좌 등록")
     @PostMapping
-    public BaseResponseDto<AccountRegistrationResponse> registration(@RequestBody @Valid AccountRegistrationRequest request) {
-        return BaseResponseDto.ok(accountService.registration(request, 2L));
+    public BaseResponseDto<AccountRegistrationResponse> registration(@RequestBody @Valid AccountRegistrationRequest request,
+                                                                     Authentication authentication) {
+        return BaseResponseDto.ok(accountService.registration(request, Long.valueOf(authentication.getName())));
     }
 
     @ApiOperation(value ="주계좌 수정")
     @PatchMapping
-    public BaseResponseDto<AccountMainUpdateResponse> changeMainAccount(@RequestBody @Valid AccountMainUpdateRequest request) {
-        return BaseResponseDto.ok(accountService.changeMainAccount(request, 1L));
+    public BaseResponseDto<AccountMainUpdateResponse> changeMainAccount(@RequestBody @Valid AccountMainUpdateRequest request,
+                                                                        Authentication authentication) {
+        return BaseResponseDto.ok(accountService.changeMainAccount(request, Long.valueOf(authentication.getName())));
     }
 
     @ApiOperation(value ="계좌 등록 해지")
     @DeleteMapping
-    public BaseResponseDto<AccountTerminationResponse> termination(@RequestBody @Valid AccountTerminationRequest request) {
-        return BaseResponseDto.ok(accountService.termination(request, 1L));
+    public BaseResponseDto<AccountTerminationResponse> termination(@RequestBody @Valid AccountTerminationRequest request,
+                                                                   Authentication authentication) {
+        return BaseResponseDto.ok(accountService.termination(request, Long.valueOf(authentication.getName())));
     }
 
     @ApiOperation(value ="주계좌 잔액 조회")
     @GetMapping("/balance")
-    public BaseResponseDto<AccountMainBalanceReadResponse> getMainAccountBalance() {
-        return BaseResponseDto.ok(accountService.getMainAccountBalance(1L));
+    public BaseResponseDto<AccountMainBalanceReadResponse> getMainAccountBalance(Authentication authentication) {
+        return BaseResponseDto.ok(accountService.getMainAccountBalance(Long.valueOf(authentication.getName())));
     }
 
     @ApiOperation(value ="계좌 조회")
@@ -67,16 +70,17 @@ public class AccountController {
         return BaseResponseDto.ok(accountService.getAccount(request));
     }
 
+    @ApiOperation(value ="전체 계좌 조회")
+    @GetMapping("/list")
+    public BaseResponseDto<Slice<AccountListReadResponse>> getAccountList(Pageable pageable,
+                                                                          Authentication authentication) {
+        return BaseResponseDto.ok(accountService.getAccountList(Long.valueOf(authentication.getName()), pageable));
+    }
+
     @ApiOperation(value ="계좌 생성")
     @PostMapping("/creation")
     public BaseResponseDto<AccountCreateResponse> save(@RequestBody @Valid AccountCreateRequest request) {
         return BaseResponseDto.ok(accountService.save(request));
-    }
-
-    @ApiOperation(value ="전체 계좌 조회")
-    @GetMapping("/list")
-    public BaseResponseDto<Slice<AccountListReadResponse>> getAccountList(Pageable pageable) {
-        return BaseResponseDto.ok(accountService.getAccountList(1L, pageable));
     }
 
 }
