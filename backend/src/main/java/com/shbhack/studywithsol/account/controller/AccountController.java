@@ -65,7 +65,7 @@ public class AccountController {
     }
 
     @ApiOperation(value ="계좌 조회")
-    @GetMapping
+    @PostMapping("/inquiry")
     public BaseResponseDto<AccountReadResponse> getAccount(@RequestBody @Valid AccountReadRequest request) {
         return BaseResponseDto.ok(accountService.getAccount(request));
     }
