@@ -99,18 +99,28 @@ public class UserService {
         return  true;
     }
 
-    public void updatePassword(Long userId, UserUpdatePasswordRequest userUpdatePasswordRequest) {
+    public Boolean updatePassword(Long userId, UserUpdatePasswordRequest userUpdatePasswordRequest) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
 
         user.updatePassword(passwordEncoder.encode(userUpdatePasswordRequest.password()));
+
+        if((user.getPassword()).equals(passwordEncoder.encode(userUpdatePasswordRequest.password()))){
+            return true;
+        }
+
+        return false;
     }
 
-    public void updateEmail(Long userId, UserUpdateEmailRequest userUpdateEmailRequest) {
+    public Boolean updateEmail(Long userId, UserUpdateEmailRequest userUpdateEmailRequest) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
-
         user.updateEmail(userUpdateEmailRequest.email());
+
+        if((user.getEmail()).equals(userUpdateEmailRequest.email())){
+            return true;
+        }
+        return false;
     }
 
 
