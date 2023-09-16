@@ -89,10 +89,13 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('로그인'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFFEFFBFF), // 배경색 설정
+      //   title: const Text('로그인'),
+      // ),
+      backgroundColor: Color(0xFFEFFBFF), // 배경색 설정
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // 수직 방향 중앙 정렬
         children: [
           InputBoxWidget(
             name: "아이디",
@@ -101,6 +104,7 @@ class _LoginState extends State<Login> {
           InputBoxWidget(
             name: "비밀번호",
             controller: passwordController, // 컨트롤러 연결
+            isPassword: true,
           ),
           const SizedBox(
             height: 20,
@@ -111,8 +115,8 @@ class _LoginState extends State<Login> {
             },
             child: const Button(
               text: "로그인",
-              bgColor: Colors.white,
-              textColor: Colors.black,
+              bgColor: Color(0xFF222C36), // 배경색 설정
+              textColor: Colors.white,
             ),
           ),
           const SizedBox(
@@ -129,10 +133,12 @@ class _LoginState extends State<Login> {
                 ),
               );
             },
-            child: const Button(
-              text: "회원가입",
-              bgColor: Colors.white,
-              textColor: Colors.black,
+            child: const Text(
+              "아직 회원가입을 하지 않으셨나요?",
+              style: TextStyle(
+                color: Color(0xFF222C36), // 텍스트 색상 설정
+                decoration: TextDecoration.underline, // 밑줄 추가
+              ),
             ),
           ),
         ],
