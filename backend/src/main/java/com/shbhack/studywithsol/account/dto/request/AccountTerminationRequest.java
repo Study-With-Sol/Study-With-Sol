@@ -6,7 +6,7 @@ public record AccountTerminationRequest(
          *  id : 계좌 pk
          */
 
-        Long id
+        Long accountId
 
 ) {
 }
