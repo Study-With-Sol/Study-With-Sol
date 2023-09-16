@@ -2,6 +2,8 @@ package com.shbhack.studywithsol.timer.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.shbhack.studywithsol.goal.domain.WantPay;
+import com.shbhack.studywithsol.timer.domain.Timer;
 import com.shbhack.studywithsol.timer.domain.TimerState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 
@@ -20,9 +23,6 @@ public class TimerDto {
     @Builder
     public static class StudyWithTimerReqDto{
         @NotNull
-        private Long childrenId;
-
-        @NotNull
         private Long parentId;
 
         @NotNull
@@ -31,7 +31,16 @@ public class TimerDto {
         @NotNull
         private String time;
 
-        private String imageUrl;
+        private WantPay wantPay;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Builder
+    public static class ListReqDto{
+        @NotNull
+        private Long childrenId;
     }
 
     @NoArgsConstructor
@@ -40,19 +49,37 @@ public class TimerDto {
     @Builder
     public static class ParentReqDto{
         @NotNull
-        private int money;
+        private Long money;
     }
 
     @Getter
     @Builder
     public static class ResponseDto{
-        private int money;
+        private Long money;
         private TimerState payState;
 
-        public static ResponseDto of(int money, TimerState payState){
+        public static ResponseDto of(Long money, TimerState payState){
             return ResponseDto.builder()
                     .money(money)
                     .payState(payState)
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    public static class ListResDto{
+        private String content;
+        private String time;
+        private LocalDate studyDate;
+        private WantPay wantPay;
+
+        public static ListResDto from (Timer timer){
+            return ListResDto.builder()
+                    .content(timer.getContent())
+                    .time(timer.getTime())
+                    .studyDate(timer.getStudyDate())
+                    .wantPay(timer.getWantPay())
                     .build();
         }
     }

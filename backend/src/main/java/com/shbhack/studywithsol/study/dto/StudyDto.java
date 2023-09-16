@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.shbhack.studywithsol.study.domain.Study;
 import com.shbhack.studywithsol.study.domain.StudyState;
+import com.shbhack.studywithsol.goal.domain.WantPay;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,10 +28,16 @@ public class StudyDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDate deadline;
 
-        @NotNull
         private Long childrenId;
+    }
 
-        private Long parentId;
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StudyFinishReqDto{
+        @NotNull
+        private WantPay wantPay;
     }
 
     // 학습 등록 시 오는 Request DTO
@@ -39,24 +46,19 @@ public class StudyDto {
     @Getter
     @Builder
     public static class RegisterStudyListReqDto{
-        @NotNull
-        private Long childrenId;
 
         @NotNull
-        private Long parentId;
+        private Long childrenId;
 
         @NotNull
         private String content;
 
         @NotNull
-        private int payMoney;
+        private Long payMoney;
 
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDate deadline;
-
-        @NotNull
-        private Boolean isLongGoal;
     }
 
     //학습 조회 시 반환 하기 위한 Response DTO
@@ -76,9 +78,10 @@ public class StudyDto {
     @Builder
     public static class StudyStateRespDto {
         private String content;
-        private int payMoney;
+        private Long payMoney;
         private Boolean isDone;
         private StudyState payState;
+        private WantPay wantPay;
 
         public static StudyStateRespDto from(Study study) {
             return StudyStateRespDto.builder()
@@ -86,6 +89,7 @@ public class StudyDto {
                     .payMoney(study.getPayMoney())
                     .isDone(study.getIsDone())
                     .payState(study.getPayState())
+                    .wantPay(study.getWantPay())
                     .build();
         }
     }
