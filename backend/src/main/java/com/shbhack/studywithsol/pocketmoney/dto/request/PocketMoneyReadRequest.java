@@ -5,11 +5,11 @@ import javax.validation.constraints.NotNull;
 public record PocketMoneyReadRequest(
 
         /**
-         *  connectionId : 부모자녀 pk
+         *  childId : 자녀 pk
          */
 
         @NotNull
-        Long connectionId
+        Long childId
 
 ) {
 }
