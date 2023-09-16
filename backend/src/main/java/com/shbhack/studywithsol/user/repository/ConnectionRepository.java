@@ -11,5 +11,7 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
 
     Connection findByParentAndChildren(User parent, User child);
 
+    Connection findByConnectionId(Long connectionId);
+
     List<Connection> findAllByChildrenAndIsConnect(User child, Boolean isConnect);
 }

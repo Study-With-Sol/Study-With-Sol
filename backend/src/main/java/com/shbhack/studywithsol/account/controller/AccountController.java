@@ -40,7 +40,7 @@ public class AccountController {
     @ApiOperation(value ="게좌 등록")
     @PostMapping
     public BaseResponseDto<AccountRegistrationResponse> registration(@RequestBody @Valid AccountRegistrationRequest request) {
-        return BaseResponseDto.ok(accountService.registration(request, 1L));
+        return BaseResponseDto.ok(accountService.registration(request, 2L));
     }
 
     @ApiOperation(value ="주계좌 수정")

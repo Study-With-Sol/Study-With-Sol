@@ -21,13 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PocketMoneyService {
 
-    private PocketMoneyRepository pocketMoneyRepository;
-    private ConnectionRepository connectionRepository;
+    private final PocketMoneyRepository pocketMoneyRepository;
+    private final ConnectionRepository connectionRepository;
 
     public PocketMoneyCreateResponse save(PocketMoneyCreateRequest request) {
 
-        Connection connection = connectionRepository.findById(request.connectionId())
-                .orElseThrow(() -> new BusinessException((ErrorMessage.CONNECTION_NOT_FOUND)));
+        Connection connection = connectionRepository.findByConnectionId(request.connectionId());
+//                .orElseThrow(() -> new BusinessException((ErrorMessage.CONNECTION_NOT_FOUND)));
 
         PocketMoney pocketMoney = pocketMoneyRepository.save(request.toEntity());
 
