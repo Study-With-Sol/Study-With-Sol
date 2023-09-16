@@ -39,6 +39,7 @@ public class CustomSpendingMoneyRepositoryImpl implements CustomSpendingMoneyRep
         }
 
         return content;
+
     }
 
 }
