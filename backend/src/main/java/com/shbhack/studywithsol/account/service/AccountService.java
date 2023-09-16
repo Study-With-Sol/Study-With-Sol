@@ -62,7 +62,7 @@ public class AccountService {
                 .orElseThrow(() -> new BusinessException((ErrorMessage.USER_NOT_FOUND)));
 
         if(account.getOwner().equals(user.getName()))
-            AccountOwnerReadResponse.from(true);
+            return AccountOwnerReadResponse.from(true);
 
         return AccountOwnerReadResponse.from(false);
     }
