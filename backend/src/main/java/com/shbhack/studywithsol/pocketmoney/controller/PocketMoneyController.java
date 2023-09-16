@@ -10,6 +10,7 @@ import com.shbhack.studywithsol.pocketmoney.service.PocketMoneyService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,14 +29,16 @@ public class PocketMoneyController {
 
     @ApiOperation(value ="용돈 저장")
     @PostMapping
-    public BaseResponseDto<PocketMoneyCreateResponse> savePocketMoney(@RequestBody @Valid PocketMoneyCreateRequest request) {
-        return BaseResponseDto.ok(pocketMoneyService.save(request));
+    public BaseResponseDto<PocketMoneyCreateResponse> savePocketMoney(@RequestBody @Valid PocketMoneyCreateRequest request,
+                                                                      Authentication authentication) {
+        return BaseResponseDto.ok(pocketMoneyService.save(request, Long.valueOf(authentication.getName())));
     }
 
     @ApiOperation(value ="용돈 조회")
-    @PostMapping("/inquery")
-    public BaseResponseDto<PocketMoneyReadResponse> getPocketMoney(@RequestBody @Valid PocketMoneyReadRequest request) {
-        return BaseResponseDto.ok(pocketMoneyService.getPocketMoney(request));
+    @GetMapping
+    public BaseResponseDto<PocketMoneyReadResponse> getPocketMoney(@RequestBody @Valid PocketMoneyReadRequest request,
+                                                                   Authentication authentication) {
+        return BaseResponseDto.ok(pocketMoneyService.getPocketMoney(request, Long.valueOf(authentication.getName())));
     }
 
     @ApiOperation(value ="용돈 수정")
