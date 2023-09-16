@@ -49,6 +49,11 @@ public class User extends BaseEntity {
     @JoinColumn(name = "account_id")
     private Account mainAccount;
 
+
+    private String message;
+
+
+
     @Builder
     public User(String id, String password, String name, String email, Boolean isParent){
         this.id = id;
@@ -73,4 +78,9 @@ public class User extends BaseEntity {
         this.updatedDate = LocalDateTime.now().plusHours(9);
     }
 
+
+    public void setMessage(String message){
+        this.message = message;
+        this.updatedDate =  LocalDateTime.now().plusHours(9);
+    }
 }

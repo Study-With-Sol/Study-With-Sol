@@ -1,6 +1,5 @@
 package com.shbhack.studywithsol.study.controller;
 
-import com.shbhack.studywithsol.study.domain.State;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 import com.shbhack.studywithsol.study.service.StudyService;
 import com.shbhack.studywithsol.transaction.service.TransactionService;

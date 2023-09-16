@@ -2,7 +2,7 @@ package com.shbhack.studywithsol.timer.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.shbhack.studywithsol.timer.domain.State;
+import com.shbhack.studywithsol.timer.domain.TimerState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,9 +47,9 @@ public class TimerDto {
     @Builder
     public static class ResponseDto{
         private int money;
-        private State payState;
+        private TimerState payState;
 
-        public static ResponseDto of(int money, State payState){
+        public static ResponseDto of(int money, TimerState payState){
             return ResponseDto.builder()
                     .money(money)
                     .payState(payState)

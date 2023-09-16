@@ -1,14 +1,23 @@
 package com.shbhack.studywithsol.user.controller;
 
 import com.shbhack.studywithsol.user.dto.request.*;
+import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
+import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
+import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
+import com.shbhack.studywithsol.user.dto.response.UserParentResponse;
+import com.shbhack.studywithsol.user.dto.request.*;
 import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
 import com.shbhack.studywithsol.user.dto.response.UserInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.service.UserService;
+import com.shbhack.studywithsol.utils.domain.BaseEntity;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,13 +36,14 @@ public class UserController {
 
      1원 이체 -
      */
-    @PostMapping("/authentication")
-    public BaseResponseDto<UserAuthenticationResponse> authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequest){
+
+
+    @PostMapping("/authentication") //본인 인증
+    public BaseResponseDto<?> authentication(@RequestBody UserAuthenticationRequest userAuthenticationRequest){
         return BaseResponseDto.ok(userService.authentication(userAuthenticationRequest));
     }
 
-    //아이디 중복 체크
-    @PostMapping("/duplication-check")
+    @PostMapping("/duplication-check") //아이디 중복 체크
     public BaseResponseDto<String> duplicationCheck(@RequestBody UserDuplicationCheckRequest userDuplicationCheckRequest){
         boolean result= userService.duplicationCheck(userDuplicationCheckRequest.id());
         if(result){
@@ -42,12 +52,12 @@ public class UserController {
         return BaseResponseDto.ok(userDuplicationCheckRequest.id());
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/sign-up") // 회원 가입
     public BaseResponseDto<Boolean> signUp(@RequestBody UserSignUpRequest userSignUpRequest){
         return BaseResponseDto.ok(userService.signUp(userSignUpRequest));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login") //로그인
     public  BaseResponseDto<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest){
         return BaseResponseDto.ok(userService.login(userLoginRequest));
     }
@@ -72,6 +82,50 @@ public class UserController {
         userService.updateEmail(Long.valueOf(authentication.getName()), userUpdateEmailRequest);
         return BaseResponseDto.ok(null);
     }
+
+    @GetMapping("/main-account") //주계좌 여부 확인
+    public BaseResponseDto<Boolean> existMainAccount(Authentication authentication){
+        return BaseResponseDto.ok(userService.existMainAccount(Long.valueOf(authentication.getName())));
+    }
+    @PostMapping("/id-check") //자녀등록을 위한 아이디 확인 -> 아이디의 사용자 이름 반환
+    public BaseResponseDto<UserIdCheckResponse> idCheck(@RequestBody UserIdCheckRequest userIdCheckRequest){
+        return BaseResponseDto.ok(userService.idCheck(userIdCheckRequest));
+    }
+
+    @GetMapping("/one-transfer/{childId}") //1원 이체
+    public BaseResponseDto<Boolean> oneTransfer(@PathVariable String childId, Authentication authentication){
+        return BaseResponseDto.ok(userService.oneTransfer(childId, Long.valueOf(authentication.getName())));
+    }
+
+    @PostMapping("/register") //자녀에게 1원이체 보낸 메시지 확인
+    public BaseResponseDto registerChild(@RequestBody UserRegisterChildRequest userRegisterChildRequest, Authentication authentication){
+        Boolean result = userService.registerChild(userRegisterChildRequest, Long.valueOf(authentication.getName()));
+        if(!result){
+            return BaseResponseDto.error(new String("메시지가 일치하지 않습니다."));
+        }
+        return BaseResponseDto.ok(result);
+    }
+
+    @GetMapping("/child")
+    public BaseResponseDto<List<UserChildInfoResponse>> getChildInfo(Authentication authentication){
+        return BaseResponseDto.ok(userService.getChildInfo(Long.valueOf(authentication.getName())));
+    }
+
+    @PatchMapping("/disconnect/{userId}")
+    public BaseResponseDto<Boolean> disconnectChild(@PathVariable Long userId, Authentication authentication){
+        return BaseResponseDto.ok(userService.disconnectChild(userId, Long.valueOf(authentication.getName())));
+    }
+
+    @GetMapping("/parent")
+    public BaseResponseDto<List<UserParentResponse>> getParent(Authentication authentication){
+        return BaseResponseDto.ok(userService.getParent(Long.valueOf(authentication.getName())));
+    }
+
+    /**
+     * 샘플코드
+     * 지워야함
+     */
+
 
     @PostMapping("/sample")
     public BaseResponseDto sample(Authentication authentication){
