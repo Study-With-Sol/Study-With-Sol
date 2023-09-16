@@ -220,6 +220,64 @@ class _BabyMainState extends State<BabyMain> {
               ),
               child: const Text("오늘 숙제"),
             ),
+            Container(
+              // 만들기
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          "전교 1등 하기",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "전교 1등 하기",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                            Text(
+                              "전교 1등 하기",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Button(
+                            text: '저금',
+                            bgColor: Colors.white,
+                            textColor: Colors.black),
+                        Button(
+                            text: '저금',
+                            bgColor: Colors.white,
+                            textColor: Colors.black),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
             for (var homework in homeworkList)
               Container(
                 decoration: const BoxDecoration(
