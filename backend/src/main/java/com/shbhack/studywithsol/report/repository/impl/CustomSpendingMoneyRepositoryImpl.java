@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.shbhack.studywithsol.report.domain.QSpendingReport.spendingReport;
-import static com.shbhack.studywithsol.user.domain.QConnection.connection;
+import static com.shbhack.studywithsol.user.domain.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
@@ -20,15 +20,15 @@ public class CustomSpendingMoneyRepositoryImpl implements CustomSpendingMoneyRep
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<SpendingReportResponse> getSpendingReport(Long connectionId, Integer year, Integer month) {
+    public List<SpendingReportResponse> getSpendingReport(Long childId, Integer year, Integer month) {
 
         List<SpendingReport> spendingReports = queryFactory.select(spendingReport)
                 .from(spendingReport)
-                .leftJoin(spendingReport.connection, connection)
+                .leftJoin(spendingReport.child, user)
                 .fetchJoin()
                 .where(spendingReport.year.eq(year),
                         spendingReport.month.eq(month),
-                        spendingReport.connection.connectionId.eq(connectionId))
+                        spendingReport.child.userId.eq(childId))
                 .orderBy(spendingReport.percent.desc())
                 .fetch();
 

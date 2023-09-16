@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface CustomSpendingMoneyRepository {
 
-    List<SpendingReportResponse> getSpendingReport(Long connectionId, Integer year, Integer month);
+    List<SpendingReportResponse> getSpendingReport(Long childId, Integer year, Integer month);
 
 }
