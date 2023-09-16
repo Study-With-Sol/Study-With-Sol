@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:study_with_sol/screens/login_screen.dart';
+import 'package:study_with_sol/screens/parent/parent_plusbaby_1won_screen.dart';
+import 'package:study_with_sol/screens/parent/parent_plusbaby_screen.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));
@@ -32,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // 1초 후에 다음 화면으로 자동으로 이동
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const Login()),
+        MaterialPageRoute(builder: (context) => const PlusBaby1Won()),
       );
     });
   }
