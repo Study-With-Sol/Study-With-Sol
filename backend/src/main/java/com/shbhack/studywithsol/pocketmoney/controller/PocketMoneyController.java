@@ -33,7 +33,7 @@ public class PocketMoneyController {
     }
 
     @ApiOperation(value ="용돈 조회")
-    @GetMapping
+    @PostMapping("/inquery")
     public BaseResponseDto<PocketMoneyReadResponse> getPocketMoney(@RequestBody @Valid PocketMoneyReadRequest request) {
         return BaseResponseDto.ok(pocketMoneyService.getPocketMoney(request));
     }

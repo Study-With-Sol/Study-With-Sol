@@ -32,7 +32,7 @@ public class TransactionController {
     }
 
     @ApiOperation(value ="거래 내역 조회")
-    @GetMapping
+    @PostMapping("/list")
     public BaseResponseDto<Slice<TransactionListReadResponse>> getTransactionList(@RequestBody @Valid TransactionListReadRequest request,
                                                                                   Pageable pageable) {
         return BaseResponseDto.ok(transactionService.getTransactionList(request.accountId(), pageable));

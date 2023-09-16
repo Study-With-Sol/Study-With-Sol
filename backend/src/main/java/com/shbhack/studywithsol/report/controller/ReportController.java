@@ -42,7 +42,7 @@ public class ReportController {
     }
 
     @ApiOperation(value ="용돈 지출 레포트 조회")
-    @GetMapping("/spending")
+    @PostMapping("/spending")
     public BaseResponseDto<List<SpendingReportResponse>> getSpendingReport(@RequestBody @Valid SpendingReportRequest request) {
         return BaseResponseDto.ok(spendingReportService.getSpendingReport(request));
     }
