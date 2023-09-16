@@ -60,7 +60,7 @@ public class UserController {
         return BaseResponseDto.ok(userService.idCheck(userIdCheckRequest));
     }
 
-    @GetMapping("/oneTransfer/{childId}") //1원 이체
+    @GetMapping("/one-transfer/{childId}") //1원 이체
     public BaseResponseDto<Boolean> oneTransfer(@PathVariable String childId, Authentication authentication){
         return BaseResponseDto.ok(userService.oneTransfer(childId, Long.valueOf(authentication.getName())));
     }
