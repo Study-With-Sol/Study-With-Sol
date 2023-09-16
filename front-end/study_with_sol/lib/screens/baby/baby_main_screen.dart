@@ -25,11 +25,14 @@ class _BabyMainState extends State<BabyMain> {
   // API에서 받아온 정보
   List<Map<String, dynamic>> homeworkList = [];
 
+  String todayStudyTime = '0:00:00'; // 오늘의 공부 시간 표시
+
   @override
   void initState() {
     super.initState();
     // 페이지가 로딩되기 전에 API를 불러옵니다.
     loadHomeworkList();
+    loadTodayStudyTime(); // 오늘의 공부 시간을 불러옵니다.
   }
 
   @override
@@ -71,6 +74,23 @@ class _BabyMainState extends State<BabyMain> {
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  Future<void> loadTodayStudyTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now();
+    final todayKey =
+        "${today.year}-${today.month}-${today.day}"; // 오늘의 날짜를 키로 사용
+    final todayStudyTimeMinutes = prefs.getInt(todayKey) ?? 0; // 기본값은 0
+
+    final hours = todayStudyTimeMinutes ~/ 60;
+    final minutes = todayStudyTimeMinutes % 60;
+    const seconds = 0; // 초는 0으로 초기화
+
+    setState(() {
+      todayStudyTime =
+          '$hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    });
   }
 
   @override
@@ -174,7 +194,12 @@ class _BabyMainState extends State<BabyMain> {
                   const Text("오늘의 공부 시간"),
                   Row(
                     children: [
-                      const Text("30:00:01"),
+                      Text(
+                        todayStudyTime,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       InkWell(
                         onTap: () {
                           // 타이머화면으로
