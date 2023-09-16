@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:study_with_sol/screens/account/account_1won_screen.dart';
 import 'package:study_with_sol/screens/login_screen.dart';
 import 'package:study_with_sol/widgets/button_widget.dart';
 import 'package:study_with_sol/widgets/inputbox_widget.dart';
@@ -20,36 +21,27 @@ class AccountNumber extends StatelessWidget {
             const SizedBox(
               height: 100,
             ),
-            Row(
-              children: [
-                const InputBoxWidget(name: "계좌번호"),
-                InkWell(
-                  onTap: () {
-                    // 로그인화면으로 돌아가기
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return const Login(); // 이동할 화면의 위젯
-                        },
-                      ),
-                    );
-                  },
-                  child: const Button(
-                    text: "발송",
-                    bgColor: Colors.white,
-                    textColor: Colors.black,
-                  ),
-                ),
-              ],
-            ),
+            const InputBoxWidget(name: "계좌번호"),
             const Text("본인 명의의 계좌번호만 입력 가능합니다"),
             const SizedBox(
               height: 100,
             ),
-            const Button(
-              text: "다음 >",
-              bgColor: Colors.white,
-              textColor: Colors.black,
+            InkWell(
+              onTap: () {
+                // 로그인화면으로 돌아가기
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return const Account1Won(); // 이동할 화면의 위젯
+                    },
+                  ),
+                );
+              },
+              child: const Button(
+                text: "등록 >",
+                bgColor: Colors.white,
+                textColor: Colors.black,
+              ),
             ),
           ],
         ),

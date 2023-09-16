@@ -32,7 +32,8 @@ class _Join2State extends State<Join2> {
     String name = nameController.text;
 
     // 서버에 이메일 전송
-    const apiUrl = 'YOUR_API_ENDPOINT'; // 실제 API 엔드포인트로 수정
+    const apiUrl =
+        'http://ec2-3-12-34-166.us-east-2.compute.amazonaws.com:8080/users/mail-check'; // 실제 API 엔드포인트로 수정
     final requestData = {
       "email": email,
       "name": name,

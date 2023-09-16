@@ -5,6 +5,7 @@ import 'package:study_with_sol/screens/parent/parent_main_screen.dart';
 import 'package:study_with_sol/widgets/button_widget.dart';
 import 'package:study_with_sol/widgets/inputbox_widget.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // SharedPreferences 임포트 추가
 
 class Login extends StatefulWidget {
   const Login({
@@ -53,20 +54,16 @@ class _LoginState extends State<Login> {
       );
 
       // 응답 데이터 확인
-      print("보냄");
       if (response.statusCode == 200) {
         final jsonResponse = response.data;
         String message = jsonResponse['message'];
         Map<String, dynamic> data = jsonResponse['data'];
 
-        print("메시지: $message");
-        print("사용자 아이디: ${data['id']}");
-        print("사용자 이름: ${data['name']}");
-        print("토큰: ${data['token']}");
-        print("부모야? ${data['isParent']}");
+        // 토큰을 SharedPreferences에 저장
+        await saveToken(data['token']);
 
         // 다음 화면으로 이동 예제
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) =>
@@ -82,6 +79,11 @@ class _LoginState extends State<Login> {
       // 오류 처리
       print('Error: $e');
     }
+  }
+
+  Future<void> saveToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
   }
 
   @override

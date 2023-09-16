@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:study_with_sol/screens/join/join_end_screen.dart';
 import 'package:study_with_sol/widgets/button_widget.dart';
 import 'package:study_with_sol/widgets/inputbox_widget.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Join3 extends StatefulWidget {
   const Join3({Key? key}) : super(key: key);
@@ -19,6 +21,105 @@ class _Join3State extends State<Join3> {
   String? savedId;
   String? savedPassword;
 
+  final Dio _dio = Dio(); // Dio 인스턴스 생성
+
+  @override
+  void dispose() {
+    _dio.close(); // Dio 인스턴스를 사용한 후 꼭 닫아줍니다.
+    super.dispose();
+  }
+
+  Future<void> checkDuplicateId(String id) async {
+    const apiUrl =
+        'http://ec2-3-12-34-166.us-east-2.compute.amazonaws.com:8080/users/duplication-check'; // 중복 체크 API 엔드포인트로 수정
+    final requestData = {"id": id};
+
+    try {
+      final response = await _dio.post(apiUrl, data: requestData);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = response.data;
+        String message = jsonResponse['message'];
+
+        if (message == 'duplicated') {
+          setState(() {
+            isIdAvailable = false;
+          });
+        } else {
+          setState(() {
+            isIdAvailable = true;
+            savedId = id; // 아이디 저장
+          });
+        }
+      } else {
+        // 중복 확인 요청 실패
+        setState(() {
+          isIdAvailable = false;
+        });
+      }
+    } catch (e) {
+      // 오류 처리
+      setState(() {
+        isIdAvailable = false;
+      });
+    }
+  }
+
+  Future<void> registerUser() async {
+    // SharedPreferences에서 사용자 정보 불러오기
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? name = prefs.getString('name');
+    String? email = prefs.getString('email');
+    bool? isParent = prefs.getBool('isParent');
+
+    // 저장된 아이디와 비밀번호 가져오기
+    String id = savedId!;
+    String password = savedPassword!;
+
+    // 회원가입 정보 생성
+    final requestData = {
+      "id": id,
+      "password": password,
+      "name": name,
+      "email": email,
+      "isParent": isParent,
+    };
+
+    // 회원가입 API 엔드포인트로 수정
+    const apiUrl =
+        'http://ec2-3-12-34-166.us-east-2.compute.amazonaws.com:8080/users/sign-up';
+
+    try {
+      final response = await _dio.post(apiUrl, data: requestData);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = response.data;
+        String message = jsonResponse['message'];
+
+        if (message == 'success') {
+          // 회원가입 성공
+          // 회원가입 완료 페이지로 이동
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const JoinEnd(),
+              fullscreenDialog: false,
+            ),
+          );
+        } else {
+          // 회원가입 실패
+          // 실패 처리 로직 추가
+        }
+      } else {
+        // 요청 실패
+        // 실패 처리 로직 추가
+      }
+    } catch (e) {
+      // 오류 처리
+      // 오류 처리 로직 추가
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,22 +134,9 @@ class _Join3State extends State<Join3> {
               controller: idController,
             ),
             InkWell(
-              onTap: () {
-                // 백엔드와 중복 확인 로직 추가
+              onTap: () async {
                 String enteredId = idController.text;
-                // 중복 확인 API 호출 또는 백엔드와 통신하여 중복 확인
-                // 예시: 중복되지 않은 아이디인 경우
-                bool isAvailable = true; // 중복되지 않음
-                if (isAvailable) {
-                  setState(() {
-                    isIdAvailable = true;
-                    savedId = enteredId; // 아이디 저장
-                  });
-                } else {
-                  setState(() {
-                    isIdAvailable = false;
-                  });
-                }
+                await checkDuplicateId(enteredId);
               },
               child: const Button(
                 text: "중복확인",
@@ -63,12 +151,12 @@ class _Join3State extends State<Join3> {
             InputBoxWidget(
               name: "비밀번호",
               controller: passwordController,
-              isPassword: true, // 비밀번호 입력 필드로 설정
+              isPassword: true,
             ),
             InputBoxWidget(
               name: "비밀번호 확인",
               controller: confirmPasswordController,
-              isPassword: true, // 비밀번호 입력 필드로 설정
+              isPassword: true,
             ),
             doPasswordsMatch
                 ? const Text("비밀번호가 일치합니다")
@@ -79,31 +167,21 @@ class _Join3State extends State<Join3> {
             ),
             InkWell(
               onTap: () {
-                // 비밀번호 확인
                 String password = passwordController.text;
                 String confirmPassword = confirmPasswordController.text;
 
                 if (password == confirmPassword) {
-                  // 비밀번호 일치
                   setState(() {
                     doPasswordsMatch = true;
-                    savedPassword = password; // 비밀번호 저장
+                    savedPassword = password;
                   });
 
-                  // 저장된 아이디와 비밀번호를 출력
                   print("저장된 아이디: $savedId");
                   print("저장된 비밀번호: $savedPassword");
 
-                  // 회원가입 완료 페이지로 이동
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const JoinEnd(),
-                      fullscreenDialog: false,
-                    ),
-                  );
+                  // 회원가입 정보를 백엔드에 저장
+                  registerUser();
                 } else {
-                  // 비밀번호 불일치
                   setState(() {
                     doPasswordsMatch = false;
                   });
