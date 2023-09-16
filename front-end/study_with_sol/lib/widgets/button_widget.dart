@@ -20,17 +20,27 @@ class Button extends StatelessWidget {
     return InkWell(
       child: Container(
         decoration: BoxDecoration(
-            color: bgColor, borderRadius: BorderRadius.circular(45)),
+          color: bgColor,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromARGB(255, 166, 166, 166), // 그림자 색상 설정
+              offset: Offset(0, 2), // 그림자 위치 설정
+              blurRadius: 0, // 그림자 흐림 정도 설정
+              spreadRadius: 0, // 그림자 확산 정도 설정
+            ),
+          ],
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 15,
-            horizontal: 50,
+            horizontal: 20,
           ),
           child: Text(
             text,
             style: TextStyle(
               color: textColor,
-              fontSize: 22,
+              fontSize: 15,
             ),
           ),
         ),
