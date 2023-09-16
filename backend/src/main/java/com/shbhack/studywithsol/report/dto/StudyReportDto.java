@@ -1,5 +1,6 @@
 package com.shbhack.studywithsol.report.dto;
 
+import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,13 +17,11 @@ public class StudyReportDto {
     @NoArgsConstructor
     public static class RequestDto{
         @NotNull
-        private Long childrenId;
-        @NotNull
         private LocalDate startDate;
         @NotNull
         private LocalDate endDate;
 
-        private Long parentId;
+        private Long childrenId;
     }
 
     @Getter

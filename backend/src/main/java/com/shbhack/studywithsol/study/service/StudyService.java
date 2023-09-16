@@ -1,17 +1,20 @@
 package com.shbhack.studywithsol.study.service;
 
+import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 
 public interface StudyService {
-    String registerStudyList(StudyDto.RegisterStudyListReqDto registerStudyListReqDto);
+    String registerStudyList(Long parentId, StudyDto.RegisterStudyListReqDto registerStudyListReqDto);
 
-    String deleteList(StudyDto.StudyRequestDto studyRequestDto);
+    void deleteOne(Long studyId);
 
-    String deleteOne(Long studyId);
+    StudyDto.StudyResponseDto getChildStudyList(Long childrenId, StudyDto.StudyRequestDto studyRequestDto);
 
-    StudyDto.StudyResponseDto getStudyList(StudyDto.StudyRequestDto studyRequestDto);
+    StudyDto.StudyResponseDto getParentStudyList(Long parentId, StudyDto.StudyRequestDto studyRequestDto);
 
-    StudyDto.StudyStateRespDto updateIsDone(Long studyId);
+    StudyDto.StudyResponseDto needCheckStudyList(Long parentId);
+
+    StudyDto.StudyStateRespDto updateIsDone(Long childrenId, Long studyId, StudyDto.StudyFinishReqDto studyFinishReqDto);
 
     StudyDto.StudyStateRespDto decisionGiveMoney(Long studyId, Boolean state);
 }
