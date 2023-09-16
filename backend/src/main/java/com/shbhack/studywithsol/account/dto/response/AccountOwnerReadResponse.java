@@ -21,5 +21,5 @@ public record AccountOwnerReadResponse(
                 accountName
         );
     }
-    
+
 }

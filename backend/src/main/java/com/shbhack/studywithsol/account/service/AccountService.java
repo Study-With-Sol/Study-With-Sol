@@ -122,7 +122,8 @@ public class AccountService {
         return AccountMainBalanceReadResponse.from(
                 account.getId(),
                 account.getAccountName(),
-                account.getBalance()
+                account.getBalance(),
+                account.getAccountNumber()
         );
     }
 
