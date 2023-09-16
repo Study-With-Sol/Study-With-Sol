@@ -17,7 +17,7 @@ class _AccountListState extends State<AccountList> {
   double balance = 0;
   String accountNumber = '';
   int id = 0;
-  List<TransactionInfo> transactionList = <TransactionInfo>[]; // 수정: 형식 지정
+  List<dynamic> transactionList = [];
 
   @override
   void initState() {
@@ -81,11 +81,19 @@ class _AccountListState extends State<AccountList> {
       if (response.statusCode == 200) {
         final jsonResponse = response.data['data']['content'];
         print("성공");
-        List<TransactionInfo> tempList = [];
-        tempList = jsonResponse
+        print(jsonResponse);
+        List<dynamic> tempList = jsonResponse
             .map((transaction) => TransactionInfo.fromJson(transaction))
             .toList();
+        //-------------
+        // final jsonResponse = response.data;
+        // final List<dynamic> accountList = jsonResponse['data']['content'];
 
+        // // 응답에서 받은 데이터를 AccountInfo 객체로 변환하여 리스트에 저장
+        // accountInfoList = accountList
+        //     .map((account) => AccountInfo.fromJson(account))
+        //     .toList();
+        //-------------
         setState(() {
           transactionList = tempList;
         });
@@ -106,6 +114,9 @@ class _AccountListState extends State<AccountList> {
       ),
       body: Column(
         children: [
+          const SizedBox(
+            height: 20,
+          ),
           Container(
             decoration: const BoxDecoration(
               color: Colors.blue,
@@ -116,23 +127,23 @@ class _AccountListState extends State<AccountList> {
                 Row(
                   children: [
                     Text("\$$balance"),
-                    InkWell(
-                      onTap: () {
-                        // 계좌정보화면으로
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return ReportAccount();
-                            },
-                          ),
-                        );
-                      },
-                      child: const Button(
-                        text: "레포트",
-                        bgColor: Colors.white,
-                        textColor: Colors.black,
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     // 계좌정보화면으로
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (BuildContext context) {
+                    //           return ReportAccount();
+                    //         },
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: const Button(
+                    //     text: "레포트",
+                    //     bgColor: Colors.white,
+                    //     textColor: Colors.black,
+                    //   ),
+                    // ),
                   ],
                 ),
                 Text(accountName),
@@ -180,11 +191,11 @@ class TransactionInfo {
 
   factory TransactionInfo.fromJson(Map<String, dynamic> json) {
     return TransactionInfo(
-      id: json['id'],
-      content: json['content'],
-      amount: json['amount'],
-      useDate: json['useDate'],
-      isDeposit: json['isDeposit'],
+      id: json['id'] as int, // id 필드를 int로 파싱
+      content: json['content'] as String, // content 필드를 String으로 파싱
+      amount: (json['amount'] as num).toDouble(), // amount 필드를 double로 파싱
+      useDate: json['useDate'] as String, // useDate 필드를 String으로 파싱
+      isDeposit: json['isDeposit'] as bool, // isDeposit 필드를 bool로 파싱
     );
   }
 }

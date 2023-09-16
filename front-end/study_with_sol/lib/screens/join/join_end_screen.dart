@@ -24,7 +24,9 @@ class JoinEnd extends StatelessWidget {
         } else if (snapshot.hasData) {
           // 데이터를 성공적으로 읽어온 경우
           bool isParent = snapshot.data!;
-          message = isParent ? "부모 가입이 완료되었습니다." : "자녀 가입이 완료되었습니다.";
+          message = isParent
+              ? "자녀의 용돈을 손쉽게 관리해보세요. 공부 시간과 양을 통해 공부 습관을 가지도록 할 수 있습니다."
+              : "정해진 숙제를 완료하고 용돈을 추가로 받으세요";
         }
 
         return Scaffold(

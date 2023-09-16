@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:study_with_sol/screens/login_screen.dart';
+import 'package:study_with_sol/screens/parent/parent_plusbaby_1won_screen.dart';
+import 'package:study_with_sol/screens/parent/parent_plusbaby_screen.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));

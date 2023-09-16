@@ -67,7 +67,7 @@ class _Join2State extends State<Join2> {
   Future<void> verifyEmail() async {
     String enteredCode = verificationCodeController.text;
 
-    if (enteredCode == verificationCode) {
+    if (enteredCode != "" && enteredCode == verificationCode) {
       // 인증 번호 일치
       // 다음 페이지로 이동
       Navigator.push(
