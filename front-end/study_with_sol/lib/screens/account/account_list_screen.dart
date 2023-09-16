@@ -126,7 +126,7 @@ class _AccountListState extends State<AccountList> {
                 const Text("내 계좌 잔액"),
                 Row(
                   children: [
-                    Text("\$$balance"),
+                    Text("$balance원"),
                     // InkWell(
                     //   onTap: () {
                     //     // 계좌정보화면으로
@@ -161,8 +161,8 @@ class _AccountListState extends State<AccountList> {
                 return ListTile(
                   title: Text(transaction.content),
                   subtitle: Text(transaction.isDeposit
-                      ? "입금: \$${transaction.amount.toStringAsFixed(2)}"
-                      : "출금: \$${transaction.amount.toStringAsFixed(2)}"),
+                      ? "입금: ${transaction.amount.toStringAsFixed(2)}원"
+                      : "출금: ${transaction.amount.toStringAsFixed(2)}원"),
                   trailing: Text(transaction.useDate),
                 );
               },
