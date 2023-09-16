@@ -5,6 +5,7 @@ import com.shbhack.studywithsol.account.dto.request.AccountMainUpdateRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountReadRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
+import com.shbhack.studywithsol.account.dto.request.AccountOwnerReadRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainUpdateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainBalanceReadResponse;
@@ -12,6 +13,7 @@ import com.shbhack.studywithsol.account.dto.response.AccountListReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountRegistrationResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountTerminationResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountOwnerReadResponse;
 import com.shbhack.studywithsol.account.service.AccountService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +44,13 @@ public class AccountController {
     public BaseResponseDto<AccountRegistrationResponse> registration(@RequestBody @Valid AccountRegistrationRequest request,
                                                                      Authentication authentication) {
         return BaseResponseDto.ok(accountService.registration(request, Long.valueOf(authentication.getName())));
+    }
+
+    @ApiOperation(value ="예금주 조회")
+    @PostMapping("/owner")
+    public BaseResponseDto<AccountOwnerReadResponse> checkOwner(@RequestBody @Valid AccountOwnerReadRequest request,
+                                                                  Authentication authentication) {
+        return BaseResponseDto.ok(accountService.checkOwner(request, Long.valueOf(authentication.getName())));
     }
 
     @ApiOperation(value ="주계좌 수정")

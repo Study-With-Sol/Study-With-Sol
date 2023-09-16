@@ -6,13 +6,15 @@ import com.shbhack.studywithsol.account.dto.request.AccountMainUpdateRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountReadRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountRegistrationRequest;
 import com.shbhack.studywithsol.account.dto.request.AccountTerminationRequest;
+import com.shbhack.studywithsol.account.dto.request.AccountOwnerReadRequest;
 import com.shbhack.studywithsol.account.dto.response.AccountCreateResponse;
-import com.shbhack.studywithsol.account.dto.response.AccountListReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainUpdateResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountMainBalanceReadResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountListReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountReadResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountRegistrationResponse;
 import com.shbhack.studywithsol.account.dto.response.AccountTerminationResponse;
+import com.shbhack.studywithsol.account.dto.response.AccountOwnerReadResponse;
 import com.shbhack.studywithsol.account.repository.AccountRepository;
 
 import com.shbhack.studywithsol.user.domain.User;
@@ -49,6 +51,20 @@ public class AccountService {
         }
 
         return AccountRegistrationResponse.from(account);
+    }
+
+    public AccountOwnerReadResponse checkOwner(AccountOwnerReadRequest request, Long userId) {
+
+        Account account = accountRepository.findByAccountNumber(request.accountNumber())
+                .orElseThrow(() -> new BusinessException((ErrorMessage.ACCOUNT_NOT_FOUND)));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException((ErrorMessage.USER_NOT_FOUND)));
+
+        if(account.getOwner().equals(user.getName()))
+            AccountOwnerReadResponse.from(true);
+
+        return AccountOwnerReadResponse.from(false);
     }
 
     public AccountMainUpdateResponse changeMainAccount(AccountMainUpdateRequest request, Long userId) {
