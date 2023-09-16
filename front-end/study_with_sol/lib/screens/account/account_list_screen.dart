@@ -51,7 +51,7 @@ class _AccountListState extends State<AccountList> {
           id = jsonResponse['id'];
           accountName = jsonResponse['name'];
           balance = jsonResponse['balance'];
-          //accountNumber = jsonResponse['accountNumber'];
+          accountNumber = jsonResponse['accountNumber'];
         });
       } else {
         print("API 호출 실패: ${response.statusCode}");
@@ -122,7 +122,7 @@ class _AccountListState extends State<AccountList> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return const ReportAccount();
+                              return ReportAccount();
                             },
                           ),
                         );
