@@ -72,15 +72,14 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    public BaseResponseDto<?> updatePassword(Authentication authentication, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest){
+    public BaseResponseDto<Boolean> updatePassword(Authentication authentication, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest){
         userService.updatePassword(Long.valueOf(authentication.getName()), userUpdatePasswordRequest);
         return BaseResponseDto.ok(null);
     }
 
     @PatchMapping("/email")
-    public BaseResponseDto<?> updateEmail(Authentication authentication, @RequestBody UserUpdateEmailRequest userUpdateEmailRequest){
-        userService.updateEmail(Long.valueOf(authentication.getName()), userUpdateEmailRequest);
-        return BaseResponseDto.ok(null);
+    public BaseResponseDto<Boolean> updateEmail(Authentication authentication, @RequestBody UserUpdateEmailRequest userUpdateEmailRequest){
+        return BaseResponseDto.ok(userService.updateEmail(Long.valueOf(authentication.getName()), userUpdateEmailRequest));
     }
 
     @GetMapping("/main-account") //주계좌 여부 확인
