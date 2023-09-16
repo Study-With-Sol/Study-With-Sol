@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:dio/dio.dart';
@@ -15,6 +16,7 @@ class _BabyStudyState extends State<BabyStudy> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   List<Map<String, dynamic>> studyList = [];
+  String selectedDate = '';
 
   @override
   void initState() {
@@ -26,9 +28,12 @@ class _BabyStudyState extends State<BabyStudy> {
   Future<void> loadStudyList() async {
     // TODO: Dio를 사용하여 API 호출 및 데이터 받아오기
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    const apiUrl = 'YOUR_API_URL_HERE'; // API 엔드포인트 수정
+    print(_selectedDay.toString());
+
+    const apiUrl =
+        'http://ec2-3-12-34-166.us-east-2.compute.amazonaws.com:8080/study/list'; // API 엔드포인트 수정
     final requestData = {
-      "deadline": _selectedDay.toString(), // 선택된 날짜를 요청에 포함
+      "deadline": selectedDate, // 선택된 날짜를 요청에 포함
     };
 
     try {
@@ -81,6 +86,8 @@ class _BabyStudyState extends State<BabyStudy> {
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay; // 포커스 이동
+                selectedDate = DateFormat('yyyy-MM-dd')
+                    .format(selectedDay); // 선택된 날짜를 원하는 형식으로 포맷
               });
               loadStudyList(); // 날짜가 선택될 때마다 API 다시 호출
             },

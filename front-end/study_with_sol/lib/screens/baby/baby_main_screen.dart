@@ -21,6 +21,7 @@ class _BabyMainState extends State<BabyMain> {
   String accountNumber = '';
   int id = 0;
   List<TransactionInfo> transactionList = [];
+  List<Map<String, dynamic>> longTermGoals = [];
 
   // API에서 받아온 정보
   List<Map<String, dynamic>> homeworkList = [];
@@ -31,6 +32,8 @@ class _BabyMainState extends State<BabyMain> {
   void initState() {
     super.initState();
     // 페이지가 로딩되기 전에 API를 불러옵니다.
+    loadLongTermGoals();
+    loadAccountInfo();
     loadHomeworkList();
     loadTodayStudyTime(); // 오늘의 공부 시간을 불러옵니다.
   }
@@ -41,15 +44,69 @@ class _BabyMainState extends State<BabyMain> {
     super.dispose();
   }
 
-  Future<void> loadHomeworkList() async {
+  Future<void> loadLongTermGoals() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     const apiUrl =
         'http://ec2-3-12-34-166.us-east-2.compute.amazonaws.com:8080/goal/child';
 
+    try {
+      final response = await _dio.get(apiUrl,
+          options: Options(headers: {
+            'Authorization': 'Bearer ${prefs.getString('token')}',
+          }));
+
+      if (response.statusCode == 200) {
+        final jsonResponse = response.data as List<dynamic>;
+        print("API 호출 성공");
+        setState(() {
+          longTermGoals = List<Map<String, dynamic>>.from(jsonResponse);
+        });
+      } else {
+        print("API 호출 실패: ${response.statusCode}");
+        print("에러 응답: ${response.data}");
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> loadAccountInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    const apiUrl =
+        'http://ec2-3-12-34-166.us-east-2.compute.amazonaws.com:8080/accounts/balance';
+    try {
+      final response = await _dio.get(apiUrl,
+          options: Options(headers: {
+            'Authorization': 'Bearer ${prefs.getString('token')}',
+          }));
+
+      if (response.statusCode == 200) {
+        final jsonResponse = response.data['data'];
+
+        setState(() {
+          id = jsonResponse['id'];
+          accountName = jsonResponse['name'];
+          balance = jsonResponse['balance'];
+          accountNumber = jsonResponse['accountNumber'];
+        });
+      } else {
+        print("API 호출 실패: ${response.statusCode}");
+        print("에러 응답: ${response.data}");
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> loadHomeworkList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    const apiUrl =
+        'http://ec2-3-12-34-166.us-east-2.compute.amazonaws.com:8080/study/list';
+
     final currentDate = DateTime.now();
     final formattedDate =
         "${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}";
-
+    print(formattedDate);
     final requestData = {
       "deadline": formattedDate,
     };
@@ -126,30 +183,37 @@ class _BabyMainState extends State<BabyMain> {
               decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "전교 1등 하기",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+              child: const Text("장기 목표"),
+            ),
+            for (var goal in longTermGoals)
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        goal['content'] ?? '',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "총 10,000원",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+                      Text(
+                        "총 ${goal['money'] ?? 0}원",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
             const SizedBox(
               height: 10,
             ),
@@ -162,7 +226,7 @@ class _BabyMainState extends State<BabyMain> {
                   const Text("내 계좌 잔액"),
                   Row(
                     children: [
-                      const Text("30,000원"),
+                      Text("$balance원"),
                       InkWell(
                         onTap: () {
                           // 계좌정보화면으로
@@ -245,88 +309,91 @@ class _BabyMainState extends State<BabyMain> {
               ),
               child: const Text("오늘 숙제"),
             ),
-            Container(
-              // 만들기
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          "전교 1등 하기",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "전교 1등 하기",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            Text(
-                              "전교 1등 하기",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Button(
-                            text: '저금',
-                            bgColor: Colors.white,
-                            textColor: Colors.black),
-                        Button(
-                            text: '저금',
-                            bgColor: Colors.white,
-                            textColor: Colors.black),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
             for (var homework in homeworkList)
               Container(
+                // 만들기
                 decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.grey,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        homework['content'] ?? '',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            homework['content'] ?? '',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${homework['payMoney'] ?? 0}원",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                homework['payState'] ?? '',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Text(
-                        "총 ${homework['payMoney'] ?? 0}원",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              // 계좌정보화면으로
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return const AccountList(); // 이동할 화면의 위젯
+                                  },
+                                ),
+                              );
+                            },
+                            child: const Button(
+                              text: "저금",
+                              bgColor: Colors.white,
+                              textColor: Colors.black,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // 계좌정보화면으로
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return const AccountList(); // 이동할 화면의 위젯
+                                  },
+                                ),
+                              );
+                            },
+                            child: const Button(
+                              text: "용돈",
+                              bgColor: Colors.white,
+                              textColor: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

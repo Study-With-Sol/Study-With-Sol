@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:study_with_sol/screens/account/account_number_screen.dart';
-import 'package:study_with_sol/test/test.dart';
 import 'package:study_with_sol/widgets/button_widget.dart';
 import 'package:study_with_sol/widgets/inputbox_widget.dart';
 
@@ -158,12 +157,7 @@ class _OptionState extends State<Option> {
       ),
       body: Column(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: const Text("연결 계좌 변경"),
-          ),
+          const Text("연결 계좌 변경"),
           Expanded(
             child: ListView.builder(
               itemCount: accountInfoList.length,
@@ -194,12 +188,7 @@ class _OptionState extends State<Option> {
               textColor: Colors.black,
             ),
           ),
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: const Text("비밀번호 변경"),
-          ),
+          const Text("비밀번호 변경"),
           InputBoxWidget(
             name: "현재 비밀번호",
             isPassword: true,

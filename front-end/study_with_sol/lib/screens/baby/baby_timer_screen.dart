@@ -56,8 +56,10 @@ class _BabyTimerState extends State<BabyTimer> {
           children: [
             const Text("오늘 날짜 텍스트"),
             Text(DateTime.now().toString()), // 현재 날짜 및 시간 표시
-            Text(DateFormat('yyyy.MM.dd').format(DateTime.now())), // "yyyy.MM.dd" 형식으로 날짜 포맷
-            Text(DateFormat('HH:mm:ss').format(DateTime.now())),// "HH:mm:ss" 형식으로 시간 포맷
+            Text(DateFormat('yyyy.MM.dd')
+                .format(DateTime.now())), // "yyyy.MM.dd" 형식으로 날짜 포맷
+            Text(DateFormat('HH:mm:ss')
+                .format(DateTime.now())), // "HH:mm:ss" 형식으로 시간 포맷
             Text("경과 시간: $hours시간 $minutes분 $seconds초"),
             ElevatedButton(
               onPressed: () {

@@ -15,7 +15,7 @@ class BabyTimerEnd extends StatefulWidget {
   State<BabyTimerEnd> createState() => _BabyTimerEndState();
 }
 
-class _BabyTimerEndState extends State<BabyTimerEnd>  {
+class _BabyTimerEndState extends State<BabyTimerEnd> {
   String dropdownValue = ''; // 초기에는 선택하지 않은 상태로 시작
   List<String> itemList = []; // itemList 초기화
   String elapsedTimeString = '00:00:00'; // 경과 시간을 나타낼 변수
@@ -43,30 +43,27 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
     final seconds = elapsedSeconds % 60;
 
     setState(() {
-      elapsedTimeString = '$hours시간 $minutes분 $seconds초'; // 경과 시간을 문자열로 변환하여 변수에 저장
+      elapsedTimeString =
+          '$hours시간 $minutes분 $seconds초'; // 경과 시간을 문자열로 변환하여 변수에 저장
     });
   }
 
   Future<void> fetchParentData() async {
     // Dio 인스턴스 생성
-    final _dio = Dio();
+    final dio = Dio();
     final prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString('token') ?? '';
 
-    print("savedToken ::"+ savedToken);
+    print("savedToken ::$savedToken");
 
     // POST 요청 보낼 URL 설정
     const url = 'http://192.168.8.199:8080/users/parent';
 
-
     try {
-      final response = await _dio.get(url,
+      final response = await dio.get(url,
           options: Options(headers: {
-            'Authorization': 'Bearer ${savedToken}',
+            'Authorization': 'Bearer $savedToken',
           }));
-
-
-
 
       if (response.statusCode == 200) {
         final data = response.data;
@@ -77,14 +74,15 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
           print(parentData.toString());
 
           // 부모 데이터의 별칭을 itemList로 설정
-          itemList = parentData.map((item) => item['alias'].toString()).toList();
+          itemList =
+              parentData.map((item) => item['alias'].toString()).toList();
 
           // 초기 dropdownValue 설정 (첫 번째 항목 선택)
           if (itemList.isNotEmpty) {
             dropdownValue = itemList[0];
             final selectedParent = parentData.firstWhere(
-                  (parent) => parent['alias'] == dropdownValue,
-              orElse: () => Map<String, dynamic>(),
+              (parent) => parent['alias'] == dropdownValue,
+              orElse: () => <String, dynamic>{},
             );
             parentId = selectedParent['userId'] ?? 0;
           }
@@ -126,7 +124,6 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
       final time = elapsedTimeString; // 경과 시간
       final wantPay = selectedOption; // 선택된 옵션
 
-
       // POST 요청을 보낼 URL 설정
       const url = 'http://192.168.8.199:8080/timer';
 
@@ -140,13 +137,9 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
 
       print(requestData.toString());
 
-
       saveElapsedStudyTime();
 
-
       await readTodayElapsedStudyTime();
-
-     
 
       // Dio 인스턴스 생성
       final dio = Dio();
@@ -163,7 +156,6 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
           ),
         );
 
-
         if (response.statusCode == 200) {
           // 요청이 성공한 경우
           print('Request successful: ${response.data}');
@@ -173,10 +165,9 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const MyHomePage(),  // 로그인 후 페이지로 이동
+              builder: (context) => const MyHomePage(), // 로그인 후 페이지로 이동
             ),
           );
-
         } else {
           // 요청이 실패한 경우
           print('Request failed with status code ${response.statusCode}');
@@ -184,7 +175,6 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
       } catch (e) {
         // 오류 처리
         print('Error: $e');
-
       }
     } else {
       // 라디오 버튼이 선택되지 않은 경우에 대한 처리를 여기에 추가하세요.
@@ -252,8 +242,8 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
               setState(() {
                 dropdownValue = newValue!;
                 final selectedParent = parentData.firstWhere(
-                      (parent) => parent['alias'] == dropdownValue,
-                  orElse: () => Map<String, dynamic>(),
+                  (parent) => parent['alias'] == dropdownValue,
+                  orElse: () => <String, dynamic>{},
                 );
                 parentId = selectedParent['userId'] ?? 0;
               });
@@ -262,8 +252,8 @@ class _BabyTimerEndState extends State<BabyTimerEnd>  {
           const SizedBox(
             height: 20,
           ),
-          ListTile(
-            title: const Text('라디오 버튼으로 선택하세요:'),
+          const ListTile(
+            title: Text('라디오 버튼으로 선택하세요:'),
           ),
           RadioListTile<String>(
             title: const Text('저금'),
