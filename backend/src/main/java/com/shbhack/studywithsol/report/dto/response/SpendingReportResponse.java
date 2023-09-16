@@ -4,12 +4,12 @@ import com.shbhack.studywithsol.report.domain.SpendingReport;
 
 public record SpendingReportResponse(
 
-
         String content,
 
         Double percent,
 
         Long amount
+
 ) {
 
     public static SpendingReportResponse of(SpendingReport spendingReport) {

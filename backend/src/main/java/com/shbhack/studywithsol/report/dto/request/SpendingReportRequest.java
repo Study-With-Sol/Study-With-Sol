@@ -5,13 +5,13 @@ import javax.validation.constraints.NotNull;
 public record SpendingReportRequest(
 
         /**
-         * childId : 자녀pk
+         * connectionId : 관계 pk
          * year : 년
          * month : 월
          */
 
         @NotNull
-        Long childId,
+        Long connectionId,
 
         @NotNull
         Integer year,
