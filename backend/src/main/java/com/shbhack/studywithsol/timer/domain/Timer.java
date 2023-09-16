@@ -1,9 +1,9 @@
 package com.shbhack.studywithsol.timer.domain;
 
+import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.timer.dto.TimerDto;
-import com.shbhack.studywithsol.utils.domain.BaseEntity;
+import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -35,26 +35,26 @@ public class Timer {
     @Column(nullable = false)
     private TimerState payState;
 
-    private int money;
-
-    private String imageUrl;
+    private Long money;
 
     @Column(nullable = false)
     private LocalDate studyDate;
 
-    public static Timer from(TimerDto.StudyWithTimerReqDto studyWithTimerReqDto){
+    private WantPay wantPay;
+
+    public static Timer of(Long childrenId, TimerDto.StudyWithTimerReqDto studyWithTimerReqDto){
         return Timer.builder()
                 .parentId(studyWithTimerReqDto.getParentId())
-                .childrenId(studyWithTimerReqDto.getChildrenId())
+                .childrenId(childrenId)
                 .content(studyWithTimerReqDto.getContent())
                 .time(studyWithTimerReqDto.getTime())
                 .payState(TimerState.WAIT)
-                .imageUrl(studyWithTimerReqDto.getImageUrl())
                 .studyDate(LocalDate.now())
+                .wantPay(studyWithTimerReqDto.getWantPay())
                 .build();
     }
 
-    public void paidMoney(int money){
+    public void paidMoney(Long money){
         this.money = money;
         this.payState = TimerState.PAID;
     }
