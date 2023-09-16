@@ -5,14 +5,20 @@ import com.shbhack.studywithsol.user.dto.response.UserChildInfoResponse;
 import com.shbhack.studywithsol.user.dto.response.UserIdCheckResponse;
 import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.dto.response.UserParentResponse;
+import com.shbhack.studywithsol.user.dto.request.*;
+import com.shbhack.studywithsol.user.dto.response.UserAuthenticationResponse;
+import com.shbhack.studywithsol.user.dto.response.UserInfoResponse;
+import com.shbhack.studywithsol.user.dto.response.UserLoginResponse;
 import com.shbhack.studywithsol.user.service.UserService;
 import com.shbhack.studywithsol.utils.domain.BaseEntity;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,6 +60,27 @@ public class UserController {
     @PostMapping("/login") //로그인
     public  BaseResponseDto<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest){
         return BaseResponseDto.ok(userService.login(userLoginRequest));
+    }
+
+    @GetMapping("/info")
+    public BaseResponseDto<UserInfoResponse> getUserInfo(Authentication authentication){
+        return BaseResponseDto.ok(userService.getUserInfo(Long.valueOf(authentication.getName())));
+    }
+    @PostMapping("/password")
+    public BaseResponseDto<Boolean> checkPassword(Authentication authentication, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest){
+        return BaseResponseDto.ok(userService.checkPassword(Long.valueOf(authentication.getName()), userUpdatePasswordRequest));
+    }
+
+    @PatchMapping("/password")
+    public BaseResponseDto<?> updatePassword(Authentication authentication, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest){
+        userService.updatePassword(Long.valueOf(authentication.getName()), userUpdatePasswordRequest);
+        return BaseResponseDto.ok(null);
+    }
+
+    @PatchMapping("/email")
+    public BaseResponseDto<?> updateEmail(Authentication authentication, @RequestBody UserUpdateEmailRequest userUpdateEmailRequest){
+        userService.updateEmail(Long.valueOf(authentication.getName()), userUpdateEmailRequest);
+        return BaseResponseDto.ok(null);
     }
 
     @GetMapping("/main-account") //주계좌 여부 확인
@@ -98,6 +125,8 @@ public class UserController {
      * 샘플코드
      * 지워야함
      */
+
+
     @PostMapping("/sample")
     public BaseResponseDto sample(Authentication authentication){
         return BaseResponseDto.ok(new String("userId ( pk ) : "+ authentication.getName()));

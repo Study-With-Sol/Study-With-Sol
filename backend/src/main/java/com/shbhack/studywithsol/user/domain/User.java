@@ -39,6 +39,7 @@ public class User extends BaseEntity {
     private String name;
 
 
+    @Column(nullable = false)
     private String email;
 
     @Column(name = "is_parent", nullable = false)
@@ -62,12 +63,21 @@ public class User extends BaseEntity {
         this.isParent = isParent;
         this.createdDate = LocalDateTime.now().plusHours(9);
         this.mainAccount = null;
-        this.message = null;
     }
 
     public void setMainAccount(Account mainAccount){
         this.mainAccount = mainAccount;
     }
+    public void updatePassword(String password){
+        this.password = password;
+        this.updatedDate = LocalDateTime.now().plusHours(9);
+    }
+
+    public void updateEmail(String email){
+        this.email = email;
+        this.updatedDate = LocalDateTime.now().plusHours(9);
+    }
+
 
     public void setMessage(String message){
         this.message = message;

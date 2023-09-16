@@ -84,6 +84,38 @@ public class UserService {
     }
 
 
+    public UserInfoResponse getUserInfo(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
+        return UserInfoResponse.of(user);
+    }
+    public Boolean checkPassword(Long userId, UserUpdatePasswordRequest userUpdatePasswordRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(userUpdatePasswordRequest.password(), user.getPassword())) {
+            return false;
+        }
+        return  true;
+    }
+
+    public void updatePassword(Long userId, UserUpdatePasswordRequest userUpdatePasswordRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
+
+        user.updatePassword(passwordEncoder.encode(userUpdatePasswordRequest.password()));
+    }
+
+    public void updateEmail(Long userId, UserUpdateEmailRequest userUpdateEmailRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND));
+
+        user.updateEmail(userUpdateEmailRequest.email());
+    }
+
+
+
+
     public Boolean existMainAccount(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorMessage.USER_NOT_FOUND)); //해당 아이디가 없을때 예외 처리
