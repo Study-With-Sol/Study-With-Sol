@@ -1,9 +1,7 @@
 package com.shbhack.studywithsol.study.controller;
 
-import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 import com.shbhack.studywithsol.study.service.StudyService;
-import com.shbhack.studywithsol.transaction.service.TransactionService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

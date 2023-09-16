@@ -1,6 +1,5 @@
 package com.shbhack.studywithsol.study.service;
 
-import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.study.dto.StudyDto;
 
 public interface StudyService {

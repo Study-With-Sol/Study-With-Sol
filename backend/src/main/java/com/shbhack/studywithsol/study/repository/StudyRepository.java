@@ -1,7 +1,6 @@
 package com.shbhack.studywithsol.study.repository;
 
 import com.shbhack.studywithsol.study.domain.Study;
-import com.shbhack.studywithsol.user.domain.Connection;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

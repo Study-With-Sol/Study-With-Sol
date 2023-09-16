@@ -7,12 +7,6 @@ import com.shbhack.studywithsol.study.repository.StudyRepository;
 import com.shbhack.studywithsol.timer.domain.Timer;
 import com.shbhack.studywithsol.timer.domain.TimerState;
 import com.shbhack.studywithsol.timer.repository.TimerRepository;
-import com.shbhack.studywithsol.user.domain.Connection;
-import com.shbhack.studywithsol.user.domain.User;
-import com.shbhack.studywithsol.user.repository.ConnectionRepository;
-import com.shbhack.studywithsol.user.repository.UserRepository;
-import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
-import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

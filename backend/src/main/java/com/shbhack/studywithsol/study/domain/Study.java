@@ -3,7 +3,6 @@ package com.shbhack.studywithsol.study.domain;
 
 import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.study.dto.StudyDto;
-import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

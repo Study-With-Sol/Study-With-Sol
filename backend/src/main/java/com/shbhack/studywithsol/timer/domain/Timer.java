@@ -2,7 +2,6 @@ package com.shbhack.studywithsol.timer.domain;
 
 import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.timer.dto.TimerDto;
-import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

@@ -1,6 +1,5 @@
 package com.shbhack.studywithsol.report.dto;
 
-import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

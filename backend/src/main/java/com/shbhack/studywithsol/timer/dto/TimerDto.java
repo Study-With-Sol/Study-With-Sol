@@ -5,13 +5,11 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.shbhack.studywithsol.goal.domain.WantPay;
 import com.shbhack.studywithsol.timer.domain.Timer;
 import com.shbhack.studywithsol.timer.domain.TimerState;
-import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 

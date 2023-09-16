@@ -6,8 +6,6 @@ import com.shbhack.studywithsol.report.dto.response.SpendingReportResponse;
 import com.shbhack.studywithsol.report.service.ReportService;
 import com.shbhack.studywithsol.report.service.SpendingReportService;
 import com.shbhack.studywithsol.utils.dto.response.BaseResponseDto;
-import com.shbhack.studywithsol.utils.error.enums.ErrorMessage;
-import com.shbhack.studywithsol.utils.error.exception.custom.BusinessException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

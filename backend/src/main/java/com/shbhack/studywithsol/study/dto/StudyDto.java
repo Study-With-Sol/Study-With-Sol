@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.shbhack.studywithsol.study.domain.Study;
 import com.shbhack.studywithsol.study.domain.StudyState;
 import com.shbhack.studywithsol.goal.domain.WantPay;
-import com.shbhack.studywithsol.user.domain.Connection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

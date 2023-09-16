@@ -1,8 +1,6 @@
 package com.shbhack.studywithsol.timer.repository;
 
 import com.shbhack.studywithsol.timer.domain.Timer;
-import com.shbhack.studywithsol.timer.dto.TimerDto;
-import com.shbhack.studywithsol.user.domain.Connection;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
